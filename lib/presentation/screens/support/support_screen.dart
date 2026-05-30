@@ -26,7 +26,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen> {
   static const Color _cardBorder = Color(0xFFE8E7E4);
   static const Color _textDark = Color(0xFF1A1A1A);
   static const Color _textMedium = Color(0xFF6B6B6B);
-  static const Color _textLight = Color(0xFF9E9E9E);
+  static const Color _textLight = Color(0xFF6B6B6B);
 
   bool get _isMobile => !context.isDesktop;
 
@@ -128,7 +128,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       decoration: BoxDecoration(
-        color: const Color(0xFF121212),
+        color: const Color(0xFFD2913C),
         borderRadius: BorderRadius.circular(14),
       ),
       child: const Row(
@@ -196,6 +196,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen> {
                 color: AppColors.iconButtonBg(context),
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColors.iconButtonBorder(context)),
+                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
               ),
               child: Center(
                 child: SvgPicture.asset('assets/icons/arrow-left.svg', width: 20, height: 20, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
@@ -244,6 +245,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen> {
                 color: AppColors.iconButtonBg(context),
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColors.iconButtonBorder(context)),
+                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
               ),
               child: Stack(
                 clipBehavior: Clip.none,
@@ -288,6 +290,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen> {
                 color: AppColors.iconButtonBg(context),
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColors.iconButtonBorder(context)),
+                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
               ),
               child: Stack(
                 clipBehavior: Clip.none,

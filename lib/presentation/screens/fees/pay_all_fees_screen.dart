@@ -363,7 +363,7 @@ class _PayAllFeesScreenState extends ConsumerState<PayAllFeesScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       decoration: BoxDecoration(
-        color: const Color(0xFF121212),
+        color: const Color(0xFFD2913C),
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
@@ -542,6 +542,7 @@ class _PayAllFeesScreenState extends ConsumerState<PayAllFeesScreen> {
                 color: AppColors.iconButtonBg(context),
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColors.iconButtonBorder(context)),
+                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
               ),
               child: Center(
                 child: SvgPicture.asset('assets/icons/arrow-left.svg', width: 20, height: 20, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
@@ -578,6 +579,7 @@ class _PayAllFeesScreenState extends ConsumerState<PayAllFeesScreen> {
                 color: AppColors.iconButtonBg(context),
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColors.iconButtonBorder(context)),
+                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
               ),
               child: Stack(
                 clipBehavior: Clip.none,
@@ -700,7 +702,7 @@ class _PayAllFeesScreenState extends ConsumerState<PayAllFeesScreen> {
               _buildFeeGroupFilter(feeGroupOptions, filteredFees),
               const SizedBox(height: 16),
 
-              // Term Fee Cards (sequential: select forward 1→2→3, unselect backward 3→2→1)
+              // Term Fee Cards (sequential: select forward 1â†’2â†’3, unselect backward 3â†’2â†’1)
               ...sortedTerms.asMap().entries.map((entry) {
                 final index = entry.key;
                 final term = entry.value;
@@ -2810,7 +2812,7 @@ class _PayAllFeesScreenState extends ConsumerState<PayAllFeesScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF121212),
+                      color: const Color(0xFFD2913C),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
@@ -2849,8 +2851,8 @@ class _PayAllFeesScreenState extends ConsumerState<PayAllFeesScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
                     decoration: BoxDecoration(
                       color: (selectedAmount > 0 && !hasTermOutOfOrder)
-                          ? const Color(0xFF121212)
-                          : const Color(0xFF121212).withValues(alpha: 0.5),
+                          ? const Color(0xFFD2913C)
+                          : const Color(0xFFD2913C).withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: (selectedAmount > 0 && !hasTermOutOfOrder)
                           ? [

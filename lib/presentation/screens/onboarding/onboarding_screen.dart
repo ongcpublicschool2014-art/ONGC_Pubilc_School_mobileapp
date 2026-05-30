@@ -162,7 +162,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     );
   }
 
-  // ─── Mobile layout — reference image style ───────────────────────────────
+  // â”€â”€â”€ Mobile layout — reference image style â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildMobileLayout(bool isLastPage) {
     final currentData = _pages[_currentPage];
 
@@ -231,7 +231,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
-                          color: Color(0xFF9E9E9E),
+                          color: Color(0xFF6B6B6B),
                           height: 1.5,
                         ),
                       ),
@@ -246,7 +246,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(vertical: 18),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF121212),
+                            color: const Color(0xFFD2913C),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Center(
@@ -272,7 +272,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: Color(0xFF9E9E9E),
+                              color: Color(0xFF6B6B6B),
                             ),
                           ),
                         ),
@@ -289,7 +289,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     );
   }
 
-  // ─── Desktop layout (split-screen) ─────────────────────────────────
+  // â”€â”€â”€ Desktop layout (split-screen) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildDesktopLayout(bool isLastPage) {
     final currentData = _pages[_currentPage];
 
@@ -404,7 +404,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     );
   }
 
-  // ─── Shared widgets ────────────────────────────────────────────────
+  // â”€â”€â”€ Shared widgets â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildBackButton() {
     if (_currentPage == 0) {
@@ -539,7 +539,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: const Color(0xFF121212),
+          color: const Color(0xFFD2913C),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(

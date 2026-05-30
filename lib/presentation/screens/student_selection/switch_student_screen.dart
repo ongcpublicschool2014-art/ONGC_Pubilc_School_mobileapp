@@ -83,7 +83,7 @@ class _SwitchStudentScreenState extends ConsumerState<SwitchStudentScreen> {
                 height: 44,
                 margin: const EdgeInsets.only(right: 14),
                 decoration: const BoxDecoration(
-                  color: Color(0xFF121212),
+                  color: Color(0xFFD2913C),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
@@ -171,7 +171,7 @@ class _SwitchStudentScreenState extends ConsumerState<SwitchStudentScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       decoration: BoxDecoration(
-        color: const Color(0xFF121212),
+        color: const Color(0xFFD2913C),
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
@@ -399,7 +399,7 @@ class _SwitchStudentScreenState extends ConsumerState<SwitchStudentScreen> {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            color: isNewSelection ? const Color(0xFF121212) : AppColors.borderC(context),
+            color: isNewSelection ? const Color(0xFFD2913C) : AppColors.borderC(context),
             borderRadius: BorderRadius.circular(16),
             boxShadow: isNewSelection
                 ? [

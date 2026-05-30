@@ -42,7 +42,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   static const Color _cardBorder = Color(0xFFE8E7E4);
   static const Color _textDark = Color(0xFF1A1A1A);
   static const Color _textMedium = Color(0xFF6B6B6B);
-  static const Color _textLight = Color(0xFF9E9E9E);
+  static const Color _textLight = Color(0xFF6B6B6B);
 
   Razorpay? _razorpay;
   bool _isProcessing = false;
@@ -170,6 +170,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 color: AppColors.iconButtonBg(context),
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColors.iconButtonBorder(context)),
+                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
               ),
               child: Center(
                 child: SvgPicture.asset('assets/icons/arrow-left.svg', width: 20, height: 20, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
@@ -346,7 +347,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       decoration: BoxDecoration(
-        color: const Color(0xFF121212),
+        color: const Color(0xFFD2913C),
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
@@ -475,7 +476,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 height: 36,
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
-                  color: Color(0xFF121212),
+                  color: Color(0xFFD2913C),
                   shape: BoxShape.circle,
                 ),
                 child: AppIcon(icon, size: 16, color: Colors.white),
@@ -927,7 +928,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
               decoration: BoxDecoration(
-                color: const Color(0xFF121212),
+                color: const Color(0xFFD2913C),
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(

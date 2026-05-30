@@ -59,9 +59,9 @@ class MainScaffold extends ConsumerWidget {
     return _buildMobileLayout(context, selectedIndex, isDark);
   }
 
-  // ────────────────────────────────────────────────────────────────
+  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Desktop: ONE unified rounded container wrapping sidebar | header+content
-  // ────────────────────────────────────────────────────────────────
+  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildDesktopLayout(
       BuildContext context, WidgetRef ref, int selectedIndex, bool isDark) {
     const double sidebarWidth = 260;
@@ -101,9 +101,9 @@ class MainScaffold extends ConsumerWidget {
     );
   }
 
-  // ────────────────────────────────────────────────────────────────
+  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Desktop top header bar (page title + search + actions)
-  // ────────────────────────────────────────────────────────────────
+  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildDesktopTopBar(
       BuildContext context, WidgetRef ref, bool isDark, int selectedIndex) {
     final selectedStudent = ref.watch(selectedStudentProvider);
@@ -238,7 +238,7 @@ class MainScaffold extends ConsumerWidget {
                   width: 36,
                   height: 36,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.15),
+                    color: AppColors.secondary.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
                   clipBehavior: Clip.antiAlias,
@@ -254,7 +254,7 @@ class MainScaffold extends ConsumerWidget {
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.primary,
+                                color: AppColors.secondary,
                               ),
                             ),
                           ),
@@ -265,7 +265,7 @@ class MainScaffold extends ConsumerWidget {
                             style: const TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.primary,
+                              color: AppColors.secondary,
                             ),
                           ),
                         ),
@@ -323,7 +323,7 @@ class MainScaffold extends ConsumerWidget {
         width: 44,
         height: 44,
         decoration: const BoxDecoration(
-          color: Color(0xFF121212),
+          color: Color(0xFFD2913C),
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
@@ -381,10 +381,10 @@ class MainScaffold extends ConsumerWidget {
     return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
   }
 
-  // ────────────────────────────────────────────────────────────────
+  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Desktop sidebar — brand + search + grouped nav + logout
   // Rendered inside the unified outer container, so it has no own card styling.
-  // ────────────────────────────────────────────────────────────────
+  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildDesktopSidebar(
       BuildContext context, WidgetRef ref, int selectedIndex, bool isDark) {
     return Column(
@@ -457,7 +457,7 @@ class MainScaffold extends ConsumerWidget {
         style: const TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w600,
-          color: Color(0xFF121212),
+          color: Color(0xFFD2913C),
           letterSpacing: 1.2,
         ),
       ),
@@ -575,9 +575,9 @@ class MainScaffold extends ConsumerWidget {
     );
   }
 
-  // ────────────────────────────────────────────────────────────────
+  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Mobile: existing bottom nav bar layout
-  // ────────────────────────────────────────────────────────────────
+  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildMobileLayout(
       BuildContext context, int selectedIndex, bool isDark) {
     final location = GoRouterState.of(context).matchedLocation;
