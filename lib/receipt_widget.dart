@@ -247,7 +247,7 @@ class ReceiptWidget extends StatelessWidget {
     if (banner != null) {
       return SizedBox(height: 100, child: _bannerHeader(banner));
     }
-    return SizedBox(height: 82, child: _fallbackHeader());
+    return SizedBox(height: 120, child: _fallbackHeader());
   }
 
   Widget _bannerHeader(String bannerAsset) {
@@ -278,13 +278,15 @@ class ReceiptWidget extends StatelessWidget {
 
   Widget _fallbackHeader() {
     final hasLogo = (data.schoolLogoUrl ?? '').trim().isNotEmpty;
+    // Logo on the left, school name + address rendered banner-style — large
+    // centered title and centered address filling the rest of the header width.
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         if (hasLogo) ...[
           SizedBox(
-            width: 70,
-            height: 70,
+            width: 110,
+            height: 110,
             child: Image.network(
               data.schoolLogoUrl!,
               fit: BoxFit.contain,
@@ -295,19 +297,27 @@ class ReceiptWidget extends StatelessWidget {
         ],
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 data.schoolName,
-                style: const TextStyle(fontFamily: _font, fontSize: 14, fontWeight: FontWeight.w800, color: _black),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: _font,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  color: _black,
+                  letterSpacing: 0.5,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
                 data.schoolAddress,
+                textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w500, color: _black),
+                style: const TextStyle(fontFamily: _font, fontSize: 10, fontWeight: FontWeight.w500, color: _black),
               ),
             ],
           ),
@@ -408,63 +418,78 @@ class ReceiptWidget extends StatelessWidget {
     );
   }
 
+  /// Two-cell row layout shared by section header, particulars, and total —
+  /// gives a continuous vertical 1pt divider between PARTICULARS and AMOUNTS.
+  Widget _twoCellRow({
+    required Widget left,
+    required Widget right,
+    required EdgeInsetsGeometry leftPadding,
+    required EdgeInsetsGeometry rightPadding,
+    bool intrinsicHeight = true,
+  }) {
+    final row = Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(child: Padding(padding: leftPadding, child: left)),
+        const DecoratedBox(
+          decoration: BoxDecoration(border: Border(left: _border)),
+          child: SizedBox(width: 0),
+        ),
+        SizedBox(width: 120, child: Padding(padding: rightPadding, child: right)),
+      ],
+    );
+    return intrinsicHeight ? IntrinsicHeight(child: row) : row;
+  }
+
   Widget _buildSectionHeader() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Row(
-        children: [
-          Expanded(
-            child: Center(
-              child: Text(
-                'PARTICULARS',
-                style: TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w700, color: _black),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 120,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                'AMOUNTS (Rs)',
-                style: TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w700, color: _black),
-              ),
-            ),
-          ),
-        ],
+    return _twoCellRow(
+      leftPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      rightPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      left: const Center(
+        child: Text(
+          'PARTICULARS',
+          style: TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w700, color: _black),
+        ),
+      ),
+      right: const Align(
+        alignment: Alignment.centerRight,
+        child: Text(
+          'AMOUNTS (Rs)',
+          style: TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w700, color: _black),
+        ),
       ),
     );
   }
 
   Widget _buildParticulars() {
     final items = flattenParticulars(data);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      child: Column(
+    return _twoCellRow(
+      intrinsicHeight: false, // particulars area fills the Expanded vertical space
+      leftPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      rightPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      left: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (int i = 0; i < items.length; i++) ...[
+            if (i > 0) const SizedBox(height: 6),
+            Text(
+              '${i + 1}. ${items[i].type}',
+              style: const TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w400, color: _black),
+            ),
+          ],
+        ],
+      ),
+      right: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           for (int i = 0; i < items.length; i++) ...[
             if (i > 0) const SizedBox(height: 6),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(
-                    '${i + 1}. ${items[i].type}',
-                    style: const TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w400, color: _black),
-                  ),
-                ),
-                SizedBox(
-                  width: 120,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      formatReceiptAmount(items[i].amount),
-                      style: const TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w400, color: _black),
-                    ),
-                  ),
-                ),
-              ],
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                formatReceiptAmount(items[i].amount),
+                style: const TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w400, color: _black),
+              ),
             ),
           ],
         ],
@@ -473,30 +498,22 @@ class ReceiptWidget extends StatelessWidget {
   }
 
   Widget _buildTotalRow() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Row(
-        children: [
-          const Expanded(
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                'TOTAL',
-                style: TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w700, color: _black),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 120,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                formatReceiptAmount(data.total),
-                style: const TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w700, color: _black),
-              ),
-            ),
-          ),
-        ],
+    return _twoCellRow(
+      leftPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      rightPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      left: const Align(
+        alignment: Alignment.centerRight,
+        child: Text(
+          'TOTAL',
+          style: TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w700, color: _black),
+        ),
+      ),
+      right: Align(
+        alignment: Alignment.centerRight,
+        child: Text(
+          formatReceiptAmount(data.total),
+          style: const TextStyle(fontFamily: _font, fontSize: 9, fontWeight: FontWeight.w700, color: _black),
+        ),
       ),
     );
   }

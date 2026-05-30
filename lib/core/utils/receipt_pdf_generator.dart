@@ -15,13 +15,21 @@ import '../../../receipt_widget.dart';
 const _kBlack = PdfColor.fromInt(0xFF000000);
 const _kRealizationOrange = PdfColor.fromInt(0xFFB85C00);
 
+/// ISO B5 — 176 × 250 mm (~499 × 709 pt). Matches the on-screen ReceiptWidget.
+/// Pass this to `Printing.layoutPdf(format: ...)` so the print dialog targets
+/// B5 paper instead of falling back to the printer's loaded paper (often A4).
+const kReceiptPageFormat = PdfPageFormat(176 * PdfPageFormat.mm, 250 * PdfPageFormat.mm);
+
 const double _kFontSize = 9;
 const double _kAmountCol = 120;
-const double _kTableWidth = 350;
-const double _kHeaderHeight = 82;
+// Match widget: 48pt page margin, 120pt header, particulars fills remaining space.
+const double _kPageMargin = 48;
+const double _kHeaderHeight = 120;
 const double _kInfoHeight = 90;
 const double _kSectionHeaderHeight = 30;
-const double _kParticularsHeight = 150;
+// B5 (709pt) - 2*48 margin - 120 header - 10 - 12 RECEIPT - 8 spacing
+//   - 90 info - 30 section header - 32 total - 78 footer - ~4 borders ≈ 230pt
+const double _kParticularsHeight = 230;
 const double _kTotalRowHeight = 32;
 const double _kFooterHeight = 78;
 
@@ -77,8 +85,8 @@ Future<pw.Document> generateReceiptPdf({
   final pdf = pw.Document(theme: theme);
   pdf.addPage(
     pw.Page(
-      pageFormat: PdfPageFormat.a5,
-      margin: const pw.EdgeInsets.all(24),
+      pageFormat: kReceiptPageFormat,
+      margin: const pw.EdgeInsets.all(_kPageMargin),
       build: (ctx) {
         return pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
@@ -89,23 +97,21 @@ Future<pw.Document> generateReceiptPdf({
               child: pw.Text('RECEIPT', style: pw.TextStyle(font: bold, fontSize: _kFontSize, color: _kBlack)),
             ),
             pw.SizedBox(height: 8),
-            pw.Center(
-              child: pw.Container(
-                width: _kTableWidth,
-                decoration: pw.BoxDecoration(
-                  border: pw.Border.all(color: _kBlack, width: 1),
-                  borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
-                ),
-                child: pw.Column(
-                  crossAxisAlignment: pw.CrossAxisAlignment.stretch,
-                  children: [
-                    _pdfInfoRow(data, semibold: semibold, regular: regular),
-                    _pdfTopBorder(_pdfSectionHeader(bold: bold)),
-                    _pdfTopBorder(_pdfParticulars(data, regular: regular)),
-                    _pdfTopBorder(_pdfTotalRow(data, bold: bold)),
-                    _pdfTopBorder(_pdfFooter(data, semibold: semibold, bold: bold)),
-                  ],
-                ),
+            // Table fills the full content width (mirrors widget's stretch).
+            pw.Container(
+              decoration: pw.BoxDecoration(
+                border: pw.Border.all(color: _kBlack, width: 1),
+                borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
+              ),
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+                children: [
+                  _pdfInfoRow(data, semibold: semibold, regular: regular),
+                  _pdfTopBorder(_pdfSectionHeader(bold: bold)),
+                  _pdfTopBorder(_pdfParticulars(data, regular: regular)),
+                  _pdfTopBorder(_pdfTotalRow(data, bold: bold)),
+                  _pdfTopBorder(_pdfFooter(data, semibold: semibold, bold: bold)),
+                ],
               ),
             ),
           ],
@@ -197,42 +203,44 @@ pw.Widget _pdfHeader(
         crossAxisAlignment: pw.CrossAxisAlignment.center,
         children: [
           pw.Expanded(
-            flex: 4,
+            flex: 30,
             child: crest != null
                 ? pw.Image(crest, height: 72, fit: pw.BoxFit.contain)
                 : pw.SizedBox.shrink(),
           ),
-          pw.Expanded(flex: 1, child: pw.SizedBox.shrink()),
-          pw.Expanded(flex: 15, child: pw.Image(banner, fit: pw.BoxFit.contain)),
+          pw.Expanded(flex: 70, child: pw.Image(banner, fit: pw.BoxFit.contain)),
         ],
       ),
     );
   }
-  // Fallback header: logo (if loaded) + name (800) + address (500, 2 lines)
+  // Fallback header: logo on left, school name + address rendered banner-style —
+  // large centered title and centered address filling the rest of the width.
   return pw.SizedBox(
     height: _kHeaderHeight,
     child: pw.Row(
       crossAxisAlignment: pw.CrossAxisAlignment.center,
       children: [
         if (logo != null) ...[
-          pw.SizedBox(width: 60, height: 60, child: pw.Image(logo, fit: pw.BoxFit.contain)),
+          pw.SizedBox(width: 90, height: 90, child: pw.Image(logo, fit: pw.BoxFit.contain)),
           pw.SizedBox(width: 12),
         ],
         pw.Expanded(
           child: pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            crossAxisAlignment: pw.CrossAxisAlignment.center,
             mainAxisAlignment: pw.MainAxisAlignment.center,
             children: [
               pw.Text(
                 data.schoolName,
-                style: pw.TextStyle(font: bold, fontSize: 14, color: _kBlack),
+                textAlign: pw.TextAlign.center,
+                style: pw.TextStyle(font: bold, fontSize: 18, color: _kBlack, letterSpacing: 0.5),
               ),
               pw.SizedBox(height: 4),
               pw.Text(
                 data.schoolAddress,
+                textAlign: pw.TextAlign.center,
                 maxLines: 2,
                 overflow: pw.TextOverflow.clip,
-                style: pw.TextStyle(font: medium, fontSize: _kFontSize, color: _kBlack),
+                style: pw.TextStyle(font: medium, fontSize: 10, color: _kBlack),
               ),
             ],
           ),
@@ -338,92 +346,93 @@ pw.Widget _pdfKv(
   );
 }
 
-pw.Widget _pdfSectionHeader({required pw.Font bold}) {
+/// Two-cell row with a 1pt vertical divider between PARTICULARS and AMOUNTS.
+pw.Widget _pdfTwoCellRow({
+  required pw.Widget left,
+  required pw.Widget right,
+  required double height,
+  required pw.EdgeInsets leftPadding,
+  required pw.EdgeInsets rightPadding,
+}) {
   return pw.SizedBox(
+    height: height,
+    child: pw.Row(
+      crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+      children: [
+        pw.Expanded(child: pw.Padding(padding: leftPadding, child: left)),
+        pw.Container(width: 1, color: _kBlack),
+        pw.SizedBox(
+          width: _kAmountCol,
+          child: pw.Padding(padding: rightPadding, child: right),
+        ),
+      ],
+    ),
+  );
+}
+
+pw.Widget _pdfSectionHeader({required pw.Font bold}) {
+  return _pdfTwoCellRow(
     height: _kSectionHeaderHeight,
-    child: pw.Padding(
-      padding: const pw.EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: pw.Row(
-        children: [
-          pw.Expanded(
-            child: pw.Center(
-              child: pw.Text('PARTICULARS',
-                  style: pw.TextStyle(font: bold, fontSize: _kFontSize, color: _kBlack)),
-            ),
-          ),
-          pw.SizedBox(
-            width: _kAmountCol,
-            child: pw.Align(
-              alignment: pw.Alignment.centerRight,
-              child: pw.Text('AMOUNTS (Rs)',
-                  style: pw.TextStyle(font: bold, fontSize: _kFontSize, color: _kBlack)),
-            ),
-          ),
-        ],
-      ),
+    leftPadding: const pw.EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    rightPadding: const pw.EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    left: pw.Center(
+      child: pw.Text('PARTICULARS',
+          style: pw.TextStyle(font: bold, fontSize: _kFontSize, color: _kBlack)),
+    ),
+    right: pw.Align(
+      alignment: pw.Alignment.centerRight,
+      child: pw.Text('AMOUNTS (Rs)',
+          style: pw.TextStyle(font: bold, fontSize: _kFontSize, color: _kBlack)),
     ),
   );
 }
 
 pw.Widget _pdfParticulars(ReceiptData data, {required pw.Font regular}) {
   final items = flattenParticulars(data);
-  return pw.SizedBox(
+  return _pdfTwoCellRow(
     height: _kParticularsHeight,
-    child: pw.Padding(
-      padding: const pw.EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      child: pw.Column(
-        crossAxisAlignment: pw.CrossAxisAlignment.start,
-        children: [
-          for (int i = 0; i < items.length; i++) ...[
-            if (i > 0) pw.SizedBox(height: 6),
-            pw.Row(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Expanded(
-                  child: pw.Text('${i + 1}. ${items[i].type}',
-                      style: pw.TextStyle(font: regular, fontSize: _kFontSize, color: _kBlack)),
-                ),
-                pw.SizedBox(
-                  width: _kAmountCol,
-                  child: pw.Align(
-                    alignment: pw.Alignment.centerRight,
-                    child: pw.Text(formatReceiptAmount(items[i].amount),
-                        style: pw.TextStyle(font: regular, fontSize: _kFontSize, color: _kBlack)),
-                  ),
-                ),
-              ],
-            ),
-          ],
+    leftPadding: const pw.EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    rightPadding: const pw.EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    left: pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [
+        for (int i = 0; i < items.length; i++) ...[
+          if (i > 0) pw.SizedBox(height: 6),
+          pw.Text('${i + 1}. ${items[i].type}',
+              style: pw.TextStyle(font: regular, fontSize: _kFontSize, color: _kBlack)),
         ],
-      ),
+      ],
+    ),
+    right: pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+      children: [
+        for (int i = 0; i < items.length; i++) ...[
+          if (i > 0) pw.SizedBox(height: 6),
+          pw.Align(
+            alignment: pw.Alignment.centerRight,
+            child: pw.Text(formatReceiptAmount(items[i].amount),
+                style: pw.TextStyle(font: regular, fontSize: _kFontSize, color: _kBlack)),
+          ),
+        ],
+      ],
     ),
   );
 }
 
 pw.Widget _pdfTotalRow(ReceiptData data, {required pw.Font bold}) {
-  return pw.SizedBox(
+  return _pdfTwoCellRow(
     height: _kTotalRowHeight,
-    child: pw.Padding(
-      padding: const pw.EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: pw.Row(
-        children: [
-          pw.Expanded(
-            child: pw.Align(
-              alignment: pw.Alignment.centerRight,
-              child: pw.Text('TOTAL',
-                  style: pw.TextStyle(font: bold, fontSize: _kFontSize, color: _kBlack)),
-            ),
-          ),
-          pw.SizedBox(
-            width: _kAmountCol,
-            child: pw.Align(
-              alignment: pw.Alignment.centerRight,
-              child: pw.Text(formatReceiptAmount(data.total),
-                  style: pw.TextStyle(font: bold, fontSize: _kFontSize, color: _kBlack)),
-            ),
-          ),
-        ],
-      ),
+    leftPadding: const pw.EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    rightPadding: const pw.EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    left: pw.Align(
+      alignment: pw.Alignment.centerRight,
+      child: pw.Text('TOTAL',
+          style: pw.TextStyle(font: bold, fontSize: _kFontSize, color: _kBlack)),
+    ),
+    right: pw.Align(
+      alignment: pw.Alignment.centerRight,
+      child: pw.Text(formatReceiptAmount(data.total),
+          style: pw.TextStyle(font: bold, fontSize: _kFontSize, color: _kBlack)),
     ),
   );
 }

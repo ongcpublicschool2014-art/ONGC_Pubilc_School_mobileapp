@@ -846,6 +846,7 @@ class TransactionDetailsScreen extends ConsumerWidget {
           await Printing.layoutPdf(
             onLayout: (_) async => bytes,
             name: '$safeFilename.pdf',
+            format: kReceiptPageFormat,
           );
         } else {
           final tempDir = await getTemporaryDirectory();
@@ -861,12 +862,14 @@ class TransactionDetailsScreen extends ConsumerWidget {
         await Printing.layoutPdf(
           onLayout: (_) async => bytes,
           name: '$safeFilename.pdf',
+          format: kReceiptPageFormat,
         );
       } else {
         // Print mode
         await Printing.layoutPdf(
           onLayout: (_) async => bytes,
           name: '$safeFilename.pdf',
+          format: kReceiptPageFormat,
         );
       }
     } catch (e) {
@@ -1075,7 +1078,7 @@ class _ReceiptPreviewDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final dialogWidth = screenSize.width > 650 ? 620.0 : screenSize.width * 0.92;
-    final receiptScale = (dialogWidth - 32) / 595; // 595 is A4 width, 32 for padding
+    final receiptScale = (dialogWidth - 32) / 499; // 499 is ISO B5 width, 32 for padding
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -1123,31 +1126,22 @@ class _ReceiptPreviewDialog extends StatelessWidget {
                 ],
               ),
             ),
-            // Receipt preview (scrollable)
+            // Receipt preview (scrollable). Receipt is fixed ISO B5 = 499 x 709 pt.
             Flexible(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: Builder(
-                  builder: (context) {
-                    final pageCount = receiptData.feeDetails.length <= 8
-                        ? 1
-                        : ((receiptData.feeDetails.length - 8) / 12).ceil() + 1;
-                    final totalReceiptHeight = pageCount * 842.0 + (pageCount - 1) * 16.0;
-
-                    return SizedBox(
-                      width: dialogWidth - 32,
-                      height: totalReceiptHeight * receiptScale,
-                      child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        alignment: Alignment.topLeft,
-                        child: SizedBox(
-                          width: 595,
-                          height: totalReceiptHeight,
-                          child: ReceiptWidget(data: receiptData),
-                        ),
-                      ),
-                    );
-                  },
+                child: SizedBox(
+                  width: dialogWidth - 32,
+                  height: 709 * receiptScale,
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    alignment: Alignment.topLeft,
+                    child: SizedBox(
+                      width: 499,
+                      height: 709,
+                      child: ReceiptWidget(data: receiptData),
+                    ),
+                  ),
                 ),
               ),
             ),
