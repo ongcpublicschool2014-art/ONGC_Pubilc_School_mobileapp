@@ -28,7 +28,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   static const Color _cardBorder = Colors.transparent;
   static const Color _textDark = Color(0xFF1A1A1A);
   static const Color _textMedium = Color(0xFF6B6B6B);
-  static const Color _textLight = Color(0xFF9E9E9E);
+  static const Color _textLight = Color(0xFF6B6B6B);
   static const Color _divider = Color(0xFFD6F5E5);
   static const Color _iconBg = Color(0xFFF1F5F9);
 
@@ -193,7 +193,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             height: 48,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColors.primary,
+              color: AppColors.secondary,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.08),
@@ -292,7 +292,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         width: 44,
         height: 44,
         decoration: BoxDecoration(
-          color: const Color(0xFF121212),
+          color: const Color(0xFFD2913C),
           shape: BoxShape.circle,
           boxShadow: const [
             BoxShadow(
@@ -665,21 +665,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 13),
         decoration: BoxDecoration(
-          color: filled ? const Color(0xFF121212) : _cardBg,
+          color: filled ? const Color(0xFFD2913C) : _cardBg,
           borderRadius: BorderRadius.circular(12),
-          border: filled ? null : Border.all(color: _cardBorder, width: 1.5),
+          border: filled ? null : Border.all(color: const Color(0xFFD2913C), width: 1.5),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AppIcon(iconName, size: 18, color: filled ? Colors.white : const Color(0xFF121212)),
+            AppIcon(iconName, size: 18, color: filled ? Colors.white : const Color(0xFFD2913C)),
             const SizedBox(width: 8),
             Text(
               label,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: filled ? Colors.white : const Color(0xFF121212),
+                color: filled ? Colors.white : const Color(0xFFD2913C),
               ),
             ),
           ],
@@ -714,7 +714,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     );
   }
 
-  // ─── Desktop layout ─────────────────────────────────────────
+  // â”€â”€â”€ Desktop layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildDesktopProfile(
       BuildContext context, Map<String, String> studentData, bool hasMultipleStudents) {
@@ -789,7 +789,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: const Color(0xFF121212),
+          color: const Color(0xFFD2913C),
           borderRadius: BorderRadius.circular(14),
         ),
         child: Row(
@@ -1010,7 +1010,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               width: 200,
               height: 200,
               decoration: BoxDecoration(
-                color: photoUrl == null ? AppColors.primary : null,
+                color: photoUrl == null ? AppColors.secondary : null,
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
@@ -1028,7 +1028,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       width: 200,
                       height: 200,
                       errorWidget: (context, url, error) => Container(
-                        color: AppColors.primary,
+                        color: AppColors.secondary,
                         child: Center(
                           child: Text(
                             _getInitials(name),

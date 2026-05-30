@@ -586,7 +586,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: const Color(0xFF121212),
+          color: const Color(0xFFD2913C),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
