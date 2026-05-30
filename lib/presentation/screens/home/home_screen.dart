@@ -525,7 +525,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildSpendingSection(BuildContext context, Map<String, double> feesByGroup) {
     final categories = [
-      {'name': 'School Fees', 'icon': 'book', 'color': const Color(0xFF0D9B5C), 'iconBgColor': const Color(0xFFDCFCE7)},
+      {'name': 'School Fees', 'icon': 'book', 'color': const Color(0xFFD2913C), 'iconBgColor': const Color(0xFFFAF1E4)},
       {'name': 'Van Fees', 'icon': 'bus', 'color': const Color(0xFFF59E0B), 'iconBgColor': const Color(0xFFFEF3C7)},
       {'name': 'Exam Fees', 'icon': 'task-square', 'color': const Color(0xFF06B6D4), 'iconBgColor': const Color(0xFFCFFAFE)},
       {'name': 'Other', 'icon': 'more', 'color': AppColors.cardPurple, 'iconBgColor': const Color(0xFFF3E8FF)},
@@ -1455,8 +1455,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (lowerName.contains('school') || lowerName.contains('tuition')) {
       return {
         'icon': 'book',
-        'color': const Color(0xFF0D9B5C),
-        'iconBgColor': const Color(0xFFDCFCE7),
+        'color': const Color(0xFFD2913C),
+        'iconBgColor': const Color(0xFFFAF1E4),
       };
     } else if (lowerName.contains('van') || lowerName.contains('bus') || lowerName.contains('transport')) {
       return {

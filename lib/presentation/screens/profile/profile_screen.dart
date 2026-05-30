@@ -79,11 +79,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             'name': selectedStudent.name,
             'class': selectedStudent.className,
             'adminNo': selectedStudent.admissionNumber,
-            'batch': StudentModel.hasValue(selectedStudent.stubatch) ? selectedStudent.stubatch! : 'N/A',
             'gender': selectedStudent.gender,
             'dob': _formatDate(selectedStudent.dateOfBirth),
             'blood': StudentModel.hasValue(selectedStudent.stubloodgrp) ? selectedStudent.stubloodgrp! : 'N/A',
-            'course': selectedStudent.courseName,
             'mobile': StudentModel.hasValue(currentParent?.payinchargemob) ? currentParent!.payinchargemob! : 'N/A',
             'email': StudentModel.hasValue(currentParent?.paremail) ? currentParent!.paremail! : 'N/A',
             'address': selectedStudent.fullAddress.isNotEmpty ? selectedStudent.fullAddress : 'N/A',
@@ -93,11 +91,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             'name': 'Student',
             'class': 'N/A',
             'adminNo': 'N/A',
-            'batch': 'N/A',
             'gender': 'N/A',
             'dob': 'N/A',
             'blood': 'N/A',
-            'course': 'N/A',
             'mobile': 'N/A',
             'email': 'N/A',
             'address': 'N/A',
@@ -241,7 +237,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${studentData['course']!} | ${studentData['class']!}',
+                studentData['class']!,
                 style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _textLight),
               ),
               const SizedBox(height: 2),
@@ -341,10 +337,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   /// Student summary — 2x3 grid card like the "Content Generation Activity" in the reference
   Widget _buildStudentSummaryCard(Map<String, String> studentData) {
     final items = [
-      _GridStat(value: studentData['adminNo']!, label: 'Roll No'),
+      _GridStat(value: studentData['adminNo']!, label: 'Admission No'),
       _GridStat(value: studentData['class']!, label: 'Class'),
-      _GridStat(value: studentData['batch']!, label: 'Batch'),
-      _GridStat(value: studentData['course']!, label: 'Course'),
       _GridStat(value: studentData['dob']!, label: 'Date of Birth'),
       _GridStat(value: studentData['gender']!, label: 'Gender'),
       _GridStat(value: studentData['blood']!, label: 'Blood Group'),
@@ -375,34 +369,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          // 2x3 Grid
+          // Two-column grid — built dynamically so it adapts to the
+          // number of stats (odd counts leave the last slot empty).
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
             child: Column(
               children: [
-                // Row 1
-                Row(
-                  children: [
-                    Expanded(child: _buildStatCell(items[0])),
-                    Expanded(child: _buildStatCell(items[1])),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                // Row 2
-                Row(
-                  children: [
-                    Expanded(child: _buildStatCell(items[2])),
-                    Expanded(child: _buildStatCell(items[3])),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                // Row 3
-                Row(
-                  children: [
-                    Expanded(child: _buildStatCell(items[4])),
-                    Expanded(child: _buildStatCell(items[5])),
-                  ],
-                ),
+                for (int i = 0; i < items.length; i += 2) ...[
+                  if (i > 0) const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(child: _buildStatCell(items[i])),
+                      Expanded(
+                        child: i + 1 < items.length
+                            ? _buildStatCell(items[i + 1])
+                            : const SizedBox.shrink(),
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),

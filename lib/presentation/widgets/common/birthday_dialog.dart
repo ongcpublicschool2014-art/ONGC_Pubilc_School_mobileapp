@@ -161,7 +161,7 @@ class _BirthdayDialogState extends State<BirthdayDialog>
             blastDirectionality: BlastDirectionality.explosive,
             shouldLoop: false,
             colors: const [
-              Color(0xFF0D9B5C),
+              Color(0xFFD2913C),
               Color(0xFFF59E0B),
               Color(0xFFEF4444),
               Color(0xFF3B82F6),

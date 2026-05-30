@@ -382,8 +382,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  Color(0xFF10B981),
-                                  Color(0xFF059669),
+                                  Color(0xFF2E4F7A),
+                                  Color(0xFF002147),
                                 ],
                               ),
                               shape: BoxShape.circle,
@@ -395,7 +395,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF10B981).withValues(alpha: 0.3),
+                                  color: const Color(0xFF002147).withValues(alpha: 0.3),
                                   blurRadius: 8,
                                   offset: const Offset(0, 2),
                                 ),

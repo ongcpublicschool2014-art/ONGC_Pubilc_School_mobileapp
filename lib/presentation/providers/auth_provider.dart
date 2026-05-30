@@ -123,7 +123,19 @@ class ParentAuthNotifier extends StateNotifier<AsyncValue<ParentAuthState>> {
         }
       }
     } catch (e) {
-      // Silently fail - user will just need to login again
+      // If the saved schema no longer exists in the current Supabase project
+      // (e.g. the backend was migrated to a new project / rebranded), the
+      // restore query fails with PGRST106 "Invalid schema". The stale schema
+      // was already set globally above, so every later query would also fail
+      // and surface error banners. Drop the stale session and reset to a clean
+      // logged-out state so the user can simply log in again.
+      if (e is PostgrestException &&
+          (e.code == 'PGRST106' ||
+              e.message.toLowerCase().contains('invalid schema'))) {
+        await _clearSession();
+        state = AsyncValue.data(ParentAuthState());
+      }
+      // Other errors: silently fail - user will just need to login again.
     }
   }
 

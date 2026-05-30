@@ -346,9 +346,9 @@ pw.Widget _buildPdfStudentInfo(StudentModel student) {
           pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.end,
             children: [
-              _pdfLabelValue('Roll No:', student.stuadmno),
+              _pdfLabelValue('Admission No:', student.stuadmno),
               pw.SizedBox(height: 6),
-              _pdfLabelValue('Course:', student.courseName),
+              _pdfLabelValue('Standard:', student.courseName),
               pw.SizedBox(height: 6),
               _pdfLabelValue('Class:', student.stuclass),
             ],

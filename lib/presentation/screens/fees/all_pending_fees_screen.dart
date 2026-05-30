@@ -2447,8 +2447,8 @@ class _AllPendingFeesScreenState extends ConsumerState<AllPendingFeesScreen> {
       } else {
         groupKey = 'school';
         svgPath = 'assets/school Icons/school.svg';
-        bgColor = const Color(0xFFDCFCE7);
-        iconColor = const Color(0xFF0D9B5C);
+        bgColor = const Color(0xFFFAF1E4);
+        iconColor = const Color(0xFFD2913C);
       }
       if (!seen.contains(groupKey)) {
         seen.add(groupKey);

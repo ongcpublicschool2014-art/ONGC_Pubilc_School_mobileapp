@@ -421,7 +421,7 @@ class TransactionDetailsScreen extends ConsumerWidget {
                   const SizedBox(height: 16),
                   _buildDetailRow(context, 'Class', className),
                   const SizedBox(height: 16),
-                  _buildDetailRow(context, 'Roll No', admissionNumber),
+                  _buildDetailRow(context, 'Admission No', admissionNumber),
                   if (payment.payreference != null) ...[
                     const SizedBox(height: 16),
                     _buildDetailRow(context, 'Transaction ID', payment.payreference!),

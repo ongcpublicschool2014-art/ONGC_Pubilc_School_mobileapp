@@ -330,7 +330,7 @@ class _SwitchStudentScreenState extends ConsumerState<SwitchStudentScreen> {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Roll No: ${student.admissionNumber} | Class: ${student.className}',
+                    'Admission No: ${student.admissionNumber} | Class: ${student.className}',
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
