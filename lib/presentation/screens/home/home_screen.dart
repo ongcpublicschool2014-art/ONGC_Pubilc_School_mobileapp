@@ -32,7 +32,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   static const Color _cardBg = Color(0xFFFFFFFF);
   static const Color _textDark = Color(0xFF1A1A1A);
   static const Color _textMedium = Color(0xFF6B6B6B);
-  static const Color _textLight = Color(0xFF9E9E9E);
+  static const Color _textLight = Color(0xFF6B6B6B);
 
   bool _birthdayChecked = false;
   bool _orphanSwept = false;
@@ -252,7 +252,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             height: 48,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColors.primary,
+              color: AppColors.secondary,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.08),
@@ -330,7 +330,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         width: 44,
         height: 44,
         decoration: BoxDecoration(
-          color: const Color(0xFF121212),
+          color: const Color(0xFFD2913C),
           shape: BoxShape.circle,
           boxShadow: const [
             BoxShadow(
@@ -398,7 +398,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       width: double.infinity,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        gradient: AppColors.brandGradient,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -566,7 +566,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  /// ≤ 4 groups: render each real group as a card in a fixed 4-slot row,
+  /// â‰¤ 4 groups: render each real group as a card in a fixed 4-slot row,
   /// padded with empty placeholder slots (no label, no number) for unused slots.
   Widget _buildSpendingFourSlots(
       BuildContext context, List<MapEntry<String, double>> entries) {
@@ -886,7 +886,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         width: 170,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isDark ? AppColors.primary : _cardBg,
+          color: isDark ? null : _cardBg,
+          gradient: isDark ? AppColors.brandGradient : null,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -1485,9 +1486,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
   }
 
-  // ────────────────────────────────────────────────────────────────
+  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Desktop-only widgets
-  // ────────────────────────────────────────────────────────────────
+  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildDesktopGreetingBanner(
       BuildContext context, AsyncValue<FeeSummary> feeSummaryAsync) {
@@ -1505,7 +1506,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         decoration: BoxDecoration(
-          color: const Color(0xFF121212),
+          color: const Color(0xFFD2913C),
           borderRadius: BorderRadius.circular(14),
         ),
         child: Row(

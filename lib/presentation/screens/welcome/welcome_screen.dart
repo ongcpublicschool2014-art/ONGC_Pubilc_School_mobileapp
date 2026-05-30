@@ -20,7 +20,7 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  // ─── Mobile layout — reference image style ───────────────────────────────
+  // â”€â”€â”€ Mobile layout — reference image style â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildMobileLayout(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F5F9),
@@ -50,7 +50,7 @@ class WelcomeScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
-                      color: Color(0xFF9E9E9E),
+                      color: Color(0xFF6B6B6B),
                       height: 1.5,
                     ),
                   ),
@@ -93,7 +93,7 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  // ─── Desktop layout (split-screen) ─────────────────────────────────
+  // â”€â”€â”€ Desktop layout (split-screen) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildDesktopLayout(BuildContext context) {
     return Row(
       children: [
@@ -176,7 +176,7 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  // ─── Shared widgets ────────────────────────────────────────────────
+  // â”€â”€â”€ Shared widgets â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildLogo(BuildContext context, double size) {
     return ScreenIllustrations.welcome(size: size);
@@ -189,7 +189,7 @@ class WelcomeScreen extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 18),
         decoration: BoxDecoration(
-          color: const Color(0xFF121212),
+          color: const Color(0xFFD2913C),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(

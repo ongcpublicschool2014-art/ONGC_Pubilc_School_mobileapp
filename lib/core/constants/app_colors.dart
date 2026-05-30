@@ -4,51 +4,51 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  // Primary Color - Burnished Amber (matches the EduCore360 / ONGC admin brand)
-  static const Color primary = Color(0xFFD2913C);
-  static const Color primary50 = Color(0xFFFAF1E4);
-  static const Color primary100 = Color(0xFFF3DCB5);
-  static const Color primary200 = Color(0xFFE9C089);
-  static const Color primary300 = Color(0xFFDFA75D);
-  static const Color primary400 = Color(0xFFD89B4A);
-  static const Color primary500 = Color(0xFFD2913C);
-  static const Color primary600 = Color(0xFFB5752A);
-  static const Color primary700 = Color(0xFF8F5C20);
-  static const Color primary800 = Color(0xFF6B4517);
-  static const Color primary900 = Color(0xFF472E0F);
+  // Primary Color - Deep Navy (brand)
+  static const Color primary = Color(0xFF002147);
+  static const Color primary50 = Color(0xFFE6EAF0);
+  static const Color primary100 = Color(0xFFC6D3E4);
+  static const Color primary200 = Color(0xFF94A8C3);
+  static const Color primary300 = Color(0xFF6280A3);
+  static const Color primary400 = Color(0xFF315583);
+  static const Color primary500 = Color(0xFF002147);
+  static const Color primary600 = Color(0xFF001A38);
+  static const Color primary700 = Color(0xFF00142B);
+  static const Color primary800 = Color(0xFF000D1D);
+  static const Color primary900 = Color(0xFF000610);
 
-  // Secondary Color - Deep Navy (admin accent)
-  static const Color secondary = Color(0xFF002147);
-  static const Color secondaryLight = Color(0xFFC6D3E4);
+  // Secondary Color - Burnished Amber (action / accent)
+  static const Color secondary = Color(0xFFD2913C);
+  static const Color secondaryLight = Color(0xFFF3DCB5);
 
   // Accent Colors
-  static const Color accent = Color(0xFF121212);
+  static const Color accent = Color(0xFFD2913C);
   static const Color accent2 = Color(0xFFE4EAF2);
 
-  // Gradient Colors - Amber brand gradient (light -> amber -> deep amber)
-  static const Color gradientStart = Color(0xFFE5A85C);
-  static const Color gradientMiddle = Color(0xFFD2913C);
-  static const Color gradientEnd = Color(0xFFA66A24);
+  // Gradient Colors - Navy brand gradient (light -> navy -> deep navy)
+  static const Color gradientStart = Color(0xFF3A5A8C);
+  static const Color gradientMiddle = Color(0xFF002147);
+  static const Color gradientEnd = Color(0xFF00132E);
 
-  /// Amber brand gradient — primary background gradient (panels, splash, hero).
+  /// Navy brand gradient — primary background gradient (panels, splash, hero).
   static const LinearGradient brandGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFFE8B468), Color(0xFFD2913C), Color(0xFFA66A24)],
+    colors: [Color(0xFF3A5A8C), Color(0xFF002147), Color(0xFF00132E)],
   );
 
-  /// Vertical amber gradient — splash / full-screen backgrounds.
+  /// Vertical navy gradient — splash / full-screen backgrounds.
   static const LinearGradient brandGradientVertical = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [Color(0xFFE5A85C), Color(0xFFD2913C), Color(0xFFA66A24)],
+    colors: [Color(0xFF3A5A8C), Color(0xFF002147), Color(0xFF00132E)],
   );
 
-  /// Navy accent gradient — highlights / active states.
+  /// Amber accent gradient — highlights / active states.
   static const LinearGradient accentGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF2E4F7A), Color(0xFF002147)],
+    colors: [Color(0xFFE5A85C), Color(0xFFD2913C), Color(0xFFA66A24)],
   );
 
   // Neutral/Gray Colors - Refined tones
@@ -100,7 +100,7 @@ class AppColors {
   static const Color border = Color(0xFFE5E7EB);
   static const Color borderLight = Color(0xFFF3F4F6);
   static const Color divider = Color(0xFFE5E7EB);
-  static const Color borderFocus = Color(0xFFD2913C);
+  static const Color borderFocus = Color(0xFFD2913C); // Amber focus ring
 
   // Semantic Fee Status Colors
   static const Color feePaid = Color(0xFF10B981);
@@ -157,10 +157,10 @@ class AppColors {
   static const Color supportIcon = Color(0xFF6366F1);
 
   // Avatar Colors
-  static const Color avatarBg = Color(0xFFD2913C);
+  static const Color avatarBg = Color(0xFFD2913C); // Amber avatar background
   static const Color avatarText = Color(0xFFFFFFFF);
 
-  // Button Colors
+  // Button Colors - Amber primary action
   static const Color buttonPrimary = Color(0xFFD2913C);
   static const Color buttonPrimaryHover = Color(0xFFB5752A);
   static const Color buttonSecondary = Color(0xFFFFFFFF);
@@ -218,13 +218,13 @@ class AppColors {
   static Color filterBg(BuildContext context) =>
       _isDark(context) ? const Color(0xFF252536) : const Color(0xFFF1F5F9);
 
-  /// Icon button background (cart, notification buttons) — dark rounded square
+  /// Icon button background (cart, notification buttons) — amber rounded square
   static Color iconButtonBg(BuildContext context) =>
-      _isDark(context) ? const Color(0xFF374151) : const Color(0xFF121212);
+      _isDark(context) ? const Color(0xFF374151) : const Color(0xFFD2913C);
 
-  /// Icon button border (same as bg for dark style)
+  /// Icon button border (same as bg)
   static Color iconButtonBorder(BuildContext context) =>
-      _isDark(context) ? const Color(0xFF374151) : const Color(0xFF121212);
+      _isDark(context) ? const Color(0xFF374151) : const Color(0xFFD2913C);
 
   /// Icon button icon color — white on dark bg
   static const Color iconButtonColor = Color(0xFFFFFFFF);

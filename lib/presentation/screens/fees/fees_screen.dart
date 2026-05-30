@@ -30,7 +30,7 @@ class _FeesScreenState extends ConsumerState<FeesScreen> {
   static const Color _cardBorder = Color(0xFFE8E7E4);
   static const Color _textDark = Color(0xFF1A1A1A);
   static const Color _textMedium = Color(0xFF6B6B6B);
-  static const Color _textLight = Color(0xFF9E9E9E);
+  static const Color _textLight = Color(0xFF6B6B6B);
 
   // Mock data for preview (remove this when real data is available)
   List<FeeModel> get _mockFees => [
@@ -237,7 +237,7 @@ class _FeesScreenState extends ConsumerState<FeesScreen> {
             height: 48,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColors.primary,
+              color: AppColors.secondary,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.08),
@@ -315,7 +315,7 @@ class _FeesScreenState extends ConsumerState<FeesScreen> {
         width: 44,
         height: 44,
         decoration: BoxDecoration(
-          color: const Color(0xFF121212),
+          color: const Color(0xFFD2913C),
           shape: BoxShape.circle,
           boxShadow: const [
             BoxShadow(

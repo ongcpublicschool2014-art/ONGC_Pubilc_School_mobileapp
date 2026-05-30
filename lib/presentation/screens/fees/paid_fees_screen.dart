@@ -96,7 +96,7 @@ class PaidFeesScreen extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       decoration: BoxDecoration(
-        color: const Color(0xFF121212),
+        color: const Color(0xFFD2913C),
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
@@ -281,6 +281,7 @@ class PaidFeesScreen extends ConsumerWidget {
                 color: AppColors.iconButtonBg(context),
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColors.iconButtonBorder(context)),
+                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
               ),
               child: Center(
                 child: SvgPicture.asset('assets/icons/arrow-left.svg', width: 20, height: 20, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
@@ -314,6 +315,7 @@ class PaidFeesScreen extends ConsumerWidget {
                 color: AppColors.iconButtonBg(context),
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColors.iconButtonBorder(context)),
+                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
               ),
               child: Stack(
                 clipBehavior: Clip.none,

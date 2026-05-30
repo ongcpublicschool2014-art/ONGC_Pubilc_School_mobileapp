@@ -418,7 +418,7 @@ class _StudentSelectionScreenState extends ConsumerState<StudentSelectionScreen>
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            color: isEnabled ? const Color(0xFF121212) : AppColors.borderC(context),
+            color: isEnabled ? const Color(0xFFD2913C) : AppColors.borderC(context),
             borderRadius: BorderRadius.circular(16),
             boxShadow: isEnabled
                 ? const [

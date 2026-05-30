@@ -155,7 +155,7 @@ class _NotificationDetailScreenState
                                   color: const Color(0xFFF5F5F3),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: const Center(child: AppIcon('clock', size: 16, color: Color(0xFF9E9E9E))),
+                                child: const Center(child: AppIcon('clock', size: 16, color: Color(0xFF6B6B6B))),
                               ),
                               const SizedBox(width: 10),
                               Text(
@@ -163,7 +163,7 @@ class _NotificationDetailScreenState
                                 style: const TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFF9E9E9E),
+                                  color: Color(0xFF6B6B6B),
                                 ),
                               ),
                             ],
@@ -209,7 +209,7 @@ class _NotificationDetailScreenState
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       decoration: BoxDecoration(
-        color: const Color(0xFF121212),
+        color: const Color(0xFFD2913C),
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
@@ -275,6 +275,7 @@ class _NotificationDetailScreenState
                 color: AppColors.iconButtonBg(context),
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColors.iconButtonBorder(context)),
+                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
               ),
               child: Center(
                 child: SvgPicture.asset('assets/icons/arrow-left.svg', width: 20, height: 20, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
@@ -565,7 +566,7 @@ class _NotificationDetailScreenState
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF121212),
+                  backgroundColor: const Color(0xFFD2913C),
                   foregroundColor: Colors.white,
                 ),
                 child: const Text('OK'),
@@ -658,7 +659,7 @@ class _NotificationDetailScreenState
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF121212),
+                  backgroundColor: const Color(0xFFD2913C),
                   foregroundColor: Colors.white,
                 ),
                 child: const Text('OK'),
@@ -706,7 +707,7 @@ class _NotificationDetailScreenState
       case NotificationType.dueDateApproaching:
         buttonText = 'Pay Now';
         buttonIcon = 'wallet-3';
-        buttonColor = const Color(0xFF121212);
+        buttonColor = const Color(0xFFD2913C);
         final demIds = notification.data?['dem_ids'] as List<dynamic>? ?? [];
         onTap = () => _handlePayFees(
               demIds,
