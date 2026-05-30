@@ -84,8 +84,14 @@ class StudentModel {
       stuphoto: json['stuphoto'],
       stuclass: json['stuclass'] ?? '',
       stubatch: json['stubatch']?.toString() ?? json['batch']?.toString(),
-      courId: json['cour_id'] is int ? json['cour_id'] : (json['cour_id'] != null ? int.tryParse(json['cour_id'].toString()) : null),
-      courname: json['courname'],
+      // Renamed in the ONGC DB: course -> clagrp (cgrp_id/clagrpname).
+      // Fall back to the legacy keys so older datasets still parse.
+      courId: () {
+        final v = json['cgrp_id'] ?? json['cour_id'];
+        if (v == null) return null;
+        return v is int ? v : int.tryParse(v.toString());
+      }(),
+      courname: json['clagrpname'] ?? json['courname'],
       stuserId: json['stuser_id'] ?? '',
       stuotpstatus: json['stuotpstatus'] ?? 0,
       activestatus: json['activestatus'] ?? 1,
@@ -118,8 +124,8 @@ class StudentModel {
       'stuphoto': stuphoto,
       'stuclass': stuclass,
       'stubatch': stubatch,
-      'cour_id': courId,
-      'courname': courname,
+      'cgrp_id': courId,
+      'clagrpname': courname,
       'stuser_id': stuserId,
       'stuotpstatus': stuotpstatus,
       'activestatus': activestatus,

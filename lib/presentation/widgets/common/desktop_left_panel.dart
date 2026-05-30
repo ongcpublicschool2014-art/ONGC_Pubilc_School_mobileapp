@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
 import 'app_icon.dart';
 
 /// Dark slate left panel for desktop split-screen layouts (VidPro style).
@@ -26,14 +27,7 @@ class DesktopLeftPanel extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         child: Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF15803D), // primary700
-                Color(0xFF166534), // primary800
-              ],
-            ),
+            gradient: AppColors.brandGradient,
           ),
           child: Stack(
             children: [

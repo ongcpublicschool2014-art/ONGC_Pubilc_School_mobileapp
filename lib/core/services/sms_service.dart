@@ -28,7 +28,8 @@ class SmsService {
 
       // Build message using the approved template
       // Template: "Thanks for Choosing {#var#}. OTP for {#var#} User Account creation is: {#var#}."
-      final message = 'Thanks for Choosing Krishnasamy Institution. OTP for Login User Account creation is: $otp.';
+      // Brand name fills the first {#var#} variable slot (DLT template id unchanged).
+      final message = 'Thanks for Choosing EduCore360. OTP for Login User Account creation is: $otp.';
 
       // URL encode the message
       final encodedMessage = Uri.encodeComponent(message);

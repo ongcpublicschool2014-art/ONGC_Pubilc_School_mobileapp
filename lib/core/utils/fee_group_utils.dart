@@ -15,8 +15,8 @@ class FeeGroupUtils {
     if (lower.contains('school') || lower.contains('tuition')) {
       return {
         'icon': 'book',
-        'color': const Color(0xFF0D9B5C),
-        'iconBgColor': const Color(0xFFDCFCE7),
+        'color': const Color(0xFFD2913C),
+        'iconBgColor': const Color(0xFFFAF1E4),
         'badgeColor': AppColors.success,
       };
     } else if (lower.contains('van') || lower.contains('bus') || lower.contains('transport')) {
