@@ -206,6 +206,8 @@ class TransactionDetailsScreen extends ConsumerWidget {
       paymentMethod: payment.paymentMethod,
       paymentDate: dateFormat.format(payDate),
       status: payment.paystatus == 'C' ? 'paid' : payment.paystatus == 'F' ? 'failed' : 'pending',
+      reconStatus: payment.reconStatus,
+      paymentReference: payment.payreference,
       total: payment.transtotalamount,
     );
   }
