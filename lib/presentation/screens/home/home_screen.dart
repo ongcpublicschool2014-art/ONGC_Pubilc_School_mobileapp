@@ -528,7 +528,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       {'name': 'School Fees', 'icon': 'book', 'color': const Color(0xFFD2913C), 'iconBgColor': const Color(0xFFFAF1E4)},
       {'name': 'Van Fees', 'icon': 'bus', 'color': const Color(0xFFF59E0B), 'iconBgColor': const Color(0xFFFEF3C7)},
       {'name': 'Exam Fees', 'icon': 'task-square', 'color': const Color(0xFF06B6D4), 'iconBgColor': const Color(0xFFCFFAFE)},
-      {'name': 'Other', 'icon': 'more', 'color': AppColors.cardPurple, 'iconBgColor': const Color(0xFFF3E8FF)},
+      {'name': 'Other', 'icon': 'more', 'color': const Color(0xFF8B5CF6), 'iconBgColor': const Color(0xFFF3E8FF)},
     ];
 
     // Sort fee groups by amount in descending order
@@ -1465,7 +1465,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         'color': const Color(0xFFF59E0B),
         'iconBgColor': const Color(0xFFFEF3C7),
       };
-    } else if (lowerName.contains('hostel')) {
+    } else if (lowerName.contains('hostel') || lowerName.contains('boarding')) {
       return {
         'icon': 'home-2',
         'color': const Color(0xFF3B82F6),
@@ -1477,10 +1477,59 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         'color': const Color(0xFF06B6D4),
         'iconBgColor': const Color(0xFFCFFAFE),
       };
-    } else {
+    } else if (lowerName.contains('library') || lowerName.contains('book')) {
       return {
-        'icon': 'receipt',
-        'color': AppColors.cardPurple,
+        'icon': 'book-1',
+        'color': const Color(0xFF0EA5E9),
+        'iconBgColor': const Color(0xFFE0F2FE),
+      };
+    } else if (lowerName.contains('sport') || lowerName.contains('activity') || lowerName.contains('game')) {
+      return {
+        'icon': 'activity',
+        'color': const Color(0xFF10B981),
+        'iconBgColor': const Color(0xFFD1FAE5),
+      };
+    } else if (lowerName.contains('lab') || lowerName.contains('computer') || lowerName.contains('science')) {
+      return {
+        'icon': '3dcube',
+        'color': const Color(0xFF14B8A6),
+        'iconBgColor': const Color(0xFFCCFBF1),
+      };
+    } else if (lowerName.contains('uniform') || lowerName.contains('dress') || lowerName.contains('cloth')) {
+      return {
+        'icon': 'user',
+        'color': const Color(0xFFEC4899),
+        'iconBgColor': const Color(0xFFFCE7F3),
+      };
+    } else if (lowerName.contains('health') || lowerName.contains('medical') || lowerName.contains('clinic')) {
+      return {
+        'icon': 'health',
+        'color': const Color(0xFFEF4444),
+        'iconBgColor': const Color(0xFFFEE2E2),
+      };
+    } else if (lowerName.contains('food') || lowerName.contains('meal') || lowerName.contains('canteen') || lowerName.contains('lunch')) {
+      return {
+        'icon': 'cake',
+        'color': const Color(0xFFF97316),
+        'iconBgColor': const Color(0xFFFFEDD5),
+      };
+    } else if (lowerName.contains('admission') || lowerName.contains('registration') || lowerName.contains('admit')) {
+      return {
+        'icon': 'wallet-3',
+        'color': const Color(0xFF6366F1),
+        'iconBgColor': const Color(0xFFE0E7FF),
+      };
+    } else if (lowerName.contains('annual') || lowerName.contains('yearly') || lowerName.contains('term')) {
+      return {
+        'icon': 'calendar',
+        'color': const Color(0xFFD2913C),
+        'iconBgColor': const Color(0xFFFAF1E4),
+      };
+    } else {
+      // Unknown / "Other" — saturated purple so the icon is visible on the pale bg
+      return {
+        'icon': 'more',
+        'color': const Color(0xFF8B5CF6),
         'iconBgColor': const Color(0xFFF3E8FF),
       };
     }
