@@ -350,9 +350,9 @@ class ReceiptWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                _labelValue('Roll No:', data.admissionNo),
+                _labelValue('Admission No:', data.admissionNo),
                 const SizedBox(height: 6),
-                _labelValue('Course:', data.courseName),
+                _labelValue('Standard:', data.courseName),
                 const SizedBox(height: 6),
                 _labelValue('Class:', data.className),
               ],

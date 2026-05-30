@@ -4,31 +4,52 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  // Primary Color - Rich Emerald Green
-  static const Color primary = Color(0xFF0D9B5C);
-  static const Color primary50 = Color(0xFFECFDF5);
-  static const Color primary100 = Color(0xFFD1FAE5);
-  static const Color primary200 = Color(0xFFA7F3D0);
-  static const Color primary300 = Color(0xFF6EE7B7);
-  static const Color primary400 = Color(0xFF34D399);
-  static const Color primary500 = Color(0xFF0D9B5C);
-  static const Color primary600 = Color(0xFF0A8A50);
-  static const Color primary700 = Color(0xFF087643);
-  static const Color primary800 = Color(0xFF065F37);
-  static const Color primary900 = Color(0xFF064E2E);
+  // Primary Color - Burnished Amber (matches the EduCore360 / ONGC admin brand)
+  static const Color primary = Color(0xFFD2913C);
+  static const Color primary50 = Color(0xFFFAF1E4);
+  static const Color primary100 = Color(0xFFF3DCB5);
+  static const Color primary200 = Color(0xFFE9C089);
+  static const Color primary300 = Color(0xFFDFA75D);
+  static const Color primary400 = Color(0xFFD89B4A);
+  static const Color primary500 = Color(0xFFD2913C);
+  static const Color primary600 = Color(0xFFB5752A);
+  static const Color primary700 = Color(0xFF8F5C20);
+  static const Color primary800 = Color(0xFF6B4517);
+  static const Color primary900 = Color(0xFF472E0F);
 
-  // Secondary Color - Soft Coral/Pink
-  static const Color secondary = Color(0xFFFF6B8A);
-  static const Color secondaryLight = Color(0xFFFFE5EB);
+  // Secondary Color - Deep Navy (admin accent)
+  static const Color secondary = Color(0xFF002147);
+  static const Color secondaryLight = Color(0xFFC6D3E4);
 
   // Accent Colors
   static const Color accent = Color(0xFF121212);
-  static const Color accent2 = Color(0xFFD1FAE5);
+  static const Color accent2 = Color(0xFFE4EAF2);
 
-  // Gradient Colors
-  static const Color gradientStart = Color(0xFFF0FDF4);
-  static const Color gradientMiddle = Color(0xFFECFDF5);
-  static const Color gradientEnd = Color(0xFFE6F9F0);
+  // Gradient Colors - Amber brand gradient (light -> amber -> deep amber)
+  static const Color gradientStart = Color(0xFFE5A85C);
+  static const Color gradientMiddle = Color(0xFFD2913C);
+  static const Color gradientEnd = Color(0xFFA66A24);
+
+  /// Amber brand gradient — primary background gradient (panels, splash, hero).
+  static const LinearGradient brandGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFE8B468), Color(0xFFD2913C), Color(0xFFA66A24)],
+  );
+
+  /// Vertical amber gradient — splash / full-screen backgrounds.
+  static const LinearGradient brandGradientVertical = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [Color(0xFFE5A85C), Color(0xFFD2913C), Color(0xFFA66A24)],
+  );
+
+  /// Navy accent gradient — highlights / active states.
+  static const LinearGradient accentGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF2E4F7A), Color(0xFF002147)],
+  );
 
   // Neutral/Gray Colors - Refined tones
   static const Color gray50 = Color(0xFFFAFAFC);
@@ -73,13 +94,13 @@ class AppColors {
   static const Color textHint = Color(0xFF9CA3AF);
   static const Color textDisabled = Color(0xFFD1D5DB);
   static const Color textInverse = Color(0xFFFFFFFF);
-  static const Color textLink = Color(0xFF3B82F6); // Blue for text buttons/links
+  static const Color textLink = Color(0xFFB5752A); // Amber for text buttons/links
 
   // Border/Divider Colors
   static const Color border = Color(0xFFE5E7EB);
   static const Color borderLight = Color(0xFFF3F4F6);
   static const Color divider = Color(0xFFE5E7EB);
-  static const Color borderFocus = Color(0xFF0D9B5C);
+  static const Color borderFocus = Color(0xFFD2913C);
 
   // Semantic Fee Status Colors
   static const Color feePaid = Color(0xFF10B981);
@@ -136,12 +157,12 @@ class AppColors {
   static const Color supportIcon = Color(0xFF6366F1);
 
   // Avatar Colors
-  static const Color avatarBg = Color(0xFF0D9B5C);
+  static const Color avatarBg = Color(0xFFD2913C);
   static const Color avatarText = Color(0xFFFFFFFF);
 
   // Button Colors
-  static const Color buttonPrimary = Color(0xFF0D9B5C);
-  static const Color buttonPrimaryHover = Color(0xFF0A8A50);
+  static const Color buttonPrimary = Color(0xFFD2913C);
+  static const Color buttonPrimaryHover = Color(0xFFB5752A);
   static const Color buttonSecondary = Color(0xFFFFFFFF);
   static const Color buttonSecondaryBorder = Color(0xFFE5E7EB);
   static const Color buttonDanger = Color(0xFFEF4444);

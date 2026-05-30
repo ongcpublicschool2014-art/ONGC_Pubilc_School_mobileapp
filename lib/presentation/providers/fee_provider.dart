@@ -219,9 +219,15 @@ final feesByYearProvider = FutureProvider.family<List<FeeModel>, int>((ref, yrId
 
 /// Fetch all fee groups for the selected year
 final feeGroupsProvider = FutureProvider<List<FeeGroupModel>>((ref) async {
+  final student = ref.watch(selectedStudentProvider);
+  if (student == null) return [];
   try {
-    final response = await SupabaseService.fromSchema('feegroup')
+    // feegroup now lives in the shared PUBLIC schema, so it must be filtered
+    // by ins_id (previously isolated per institution schema).
+    final response = await SupabaseService.client
+        .from('feegroup')
         .select('*')
+        .eq('ins_id', student.insId)
         .eq('activestatus', 1)
         .order('fgdesc');
 
@@ -236,16 +242,23 @@ final feeGroupsProvider = FutureProvider<List<FeeGroupModel>>((ref) async {
 
 /// Fetch all fee types with their fee groups
 final feeTypesProvider = FutureProvider<List<FeeTypeModel>>((ref) async {
+  final student = ref.watch(selectedStudentProvider);
+  if (student == null) return [];
   try {
+    // feetype/feegroup now live in the shared PUBLIC schema; filter by ins_id.
     dynamic response;
     try {
-      response = await SupabaseService.fromSchema('feetype')
+      response = await SupabaseService.client
+          .from('feetype')
           .select('*, feegroup(*)')
+          .eq('ins_id', student.insId)
           .eq('activestatus', 1)
           .order('feedesc');
     } catch (e) {
-      response = await SupabaseService.fromSchema('feetype')
+      response = await SupabaseService.client
+          .from('feetype')
           .select('*')
+          .eq('ins_id', student.insId)
           .eq('activestatus', 1)
           .order('feedesc');
     }
@@ -295,7 +308,8 @@ final feeGroupListProvider = FutureProvider<List<String>>((ref) async {
   if (student == null) return [];
 
   try {
-    final response = await SupabaseService.fromSchema('feegroup')
+    final response = await SupabaseService.client
+        .from('feegroup')
         .select('fgdesc')
         .eq('ins_id', student.insId)
         .eq('activestatus', 1);
@@ -317,8 +331,9 @@ final feeTypeToGroupMappingProvider = FutureProvider<Map<int, String>>((ref) asy
   if (student == null) return {};
 
   try {
-    // First, fetch feegroups (schema-specific)
-    final feeGroupsResponse = await SupabaseService.fromSchema('feegroup')
+    // First, fetch feegroups (now in the shared PUBLIC schema, filtered by ins_id)
+    final feeGroupsResponse = await SupabaseService.client
+        .from('feegroup')
         .select('fg_id, fgdesc')
         .eq('ins_id', student.insId)
         .eq('activestatus', 1);
@@ -330,10 +345,12 @@ final feeTypeToGroupMappingProvider = FutureProvider<Map<int, String>>((ref) asy
     }
     debugPrint('Fee Groups loaded: $fgIdToDesc');
 
-    // Try to fetch feetypes (may fail due to RLS)
+    // Try to fetch feetypes (now in the shared PUBLIC schema, filtered by ins_id)
     try {
-      final feeTypesResponse = await SupabaseService.fromSchema('feetype')
+      final feeTypesResponse = await SupabaseService.client
+          .from('feetype')
           .select('fee_id, fg_id')
+          .eq('ins_id', student.insId)
           .eq('activestatus', 1);
 
       // Create fee_id -> fgdesc mapping

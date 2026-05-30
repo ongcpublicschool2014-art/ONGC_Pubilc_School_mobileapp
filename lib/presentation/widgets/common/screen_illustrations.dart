@@ -50,7 +50,7 @@ class ScreenIllustrations {
                 decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.08), blurRadius: 8, offset: const Offset(0, 2))]),
                 child: AppIcon('key', size: size * 0.07, color: AppColors.primary),
               ))),
-              Positioned(right: size * 0.08, bottom: size * 0.10, child: _PulseBadge(animation: anim, size: size * 0.22, colors: const [Color(0xFF10B981), Color(0xFF059669)], icon: 'login', iconSize: size * 0.11)),
+              Positioned(right: size * 0.08, bottom: size * 0.10, child: _PulseBadge(animation: anim, size: size * 0.22, colors: const [Color(0xFF002147), Color(0xFF001834)], icon: 'login', iconSize: size * 0.11)),
             ],
           );
         }
@@ -111,7 +111,7 @@ class ScreenIllustrations {
 
             // Login badge bottom-right
             Positioned(right: size * 0.04, bottom: size * 0.10, child: _PulseBadge(
-              animation: anim, size: size * 0.11, colors: const [Color(0xFF10B981), Color(0xFF059669)], icon: 'login', iconSize: size * 0.055, borderColor: Colors.white,
+              animation: anim, size: size * 0.11, colors: const [Color(0xFF002147), Color(0xFF001834)], icon: 'login', iconSize: size * 0.055, borderColor: Colors.white,
             )),
 
             // Sparkle
@@ -131,28 +131,28 @@ class ScreenIllustrations {
           return Stack(
             alignment: Alignment.center,
             children: [
-              _PulseRing(size: size * 0.90, color: const Color(0xFF10B981).withValues(alpha: 0.06), animation: anim),
-              Container(width: size * 0.78, height: size * 0.78, decoration: BoxDecoration(shape: BoxShape.circle, gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [const Color(0xFF10B981).withValues(alpha: 0.10), const Color(0xFF10B981).withValues(alpha: 0.03)]))),
+              _PulseRing(size: size * 0.90, color: const Color(0xFF002147).withValues(alpha: 0.06), animation: anim),
+              Container(width: size * 0.78, height: size * 0.78, decoration: BoxDecoration(shape: BoxShape.circle, gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [const Color(0xFF002147).withValues(alpha: 0.10), const Color(0xFF002147).withValues(alpha: 0.03)]))),
               _FloatOffset(animation: anim, dy: 3.0, child: Container(
                 width: size * 0.52, height: size * 0.62,
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(size * 0.07), boxShadow: [BoxShadow(color: const Color(0xFF10B981).withValues(alpha: 0.14), blurRadius: 18, offset: const Offset(0, 6))]),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(size * 0.07), boxShadow: [BoxShadow(color: const Color(0xFF002147).withValues(alpha: 0.14), blurRadius: 18, offset: const Offset(0, 6))]),
                 child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Container(width: size * 0.20, height: size * 0.20, decoration: BoxDecoration(shape: BoxShape.circle, color: const Color(0xFF10B981).withValues(alpha: 0.12)), child: AppIcon('user-add', size: size * 0.12, color: const Color(0xFF059669))),
+                  Container(width: size * 0.20, height: size * 0.20, decoration: BoxDecoration(shape: BoxShape.circle, color: const Color(0xFF002147).withValues(alpha: 0.12)), child: AppIcon('user-add', size: size * 0.12, color: const Color(0xFF001834))),
                   SizedBox(height: size * 0.035),
                   for (int i = 0; i < 3; i++) ...[
                     Container(width: i < 2 ? size * 0.32 : size * 0.26, height: size * 0.028, decoration: BoxDecoration(color: AppColors.gray200, borderRadius: BorderRadius.circular(size * 0.01))),
                     if (i < 2) SizedBox(height: size * 0.022),
                   ],
                   SizedBox(height: size * 0.035),
-                  Container(width: size * 0.28, height: size * 0.05, decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF10B981), Color(0xFF059669)]), borderRadius: BorderRadius.circular(size * 0.025))),
+                  Container(width: size * 0.28, height: size * 0.05, decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF002147), Color(0xFF001834)]), borderRadius: BorderRadius.circular(size * 0.025))),
                 ]),
               )),
               Positioned(right: size * 0.06, top: size * 0.12, child: _FloatOffset(animation: anim, dy: 3.5, phase: 0.5, child: Container(
                 width: size * 0.14, height: size * 0.14,
                 decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.08), blurRadius: 8, offset: const Offset(0, 2))]),
-                child: AppIcon('shield', size: size * 0.07, color: const Color(0xFF10B981)),
+                child: AppIcon('shield', size: size * 0.07, color: const Color(0xFF002147)),
               ))),
-              Positioned(right: size * 0.10, bottom: size * 0.10, child: _PulseBadge(animation: anim, size: size * 0.22, colors: const [Color(0xFF10B981), Color(0xFF059669)], icon: 'add', iconSize: size * 0.13)),
+              Positioned(right: size * 0.10, bottom: size * 0.10, child: _PulseBadge(animation: anim, size: size * 0.22, colors: const [Color(0xFF002147), Color(0xFF001834)], icon: 'add', iconSize: size * 0.13)),
             ],
           );
         }
@@ -172,9 +172,9 @@ class ScreenIllustrations {
             Positioned(right: size * 0.02, top: size * 0.10, child: _FloatOffset(animation: anim, dy: 3.0, phase: 0.3, child: Container(
               width: size * 0.24, height: size * 0.26,
               decoration: BoxDecoration(
-                gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xFF10B981), Color(0xFF059669)]),
+                gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xFF002147), Color(0xFF001834)]),
                 borderRadius: BorderRadius.circular(size * 0.025),
-                boxShadow: [BoxShadow(color: const Color(0xFF10B981).withValues(alpha: 0.30), blurRadius: 16, offset: const Offset(2, 6))],
+                boxShadow: [BoxShadow(color: const Color(0xFF002147).withValues(alpha: 0.30), blurRadius: 16, offset: const Offset(2, 6))],
               ),
               child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 AppIcon('shield', size: size * 0.08, color: Colors.white),
@@ -207,7 +207,7 @@ class ScreenIllustrations {
 
             // Check badge bottom-right
             Positioned(right: size * 0.04, bottom: size * 0.10, child: _PulseBadge(
-              animation: anim, size: size * 0.11, colors: const [Color(0xFF10B981), Color(0xFF059669)], icon: 'tick-circle', iconSize: size * 0.055, borderColor: Colors.white,
+              animation: anim, size: size * 0.11, colors: const [Color(0xFF002147), Color(0xFF001834)], icon: 'tick-circle', iconSize: size * 0.055, borderColor: Colors.white,
             )),
 
             // Sparkle
@@ -315,7 +315,7 @@ class ScreenIllustrations {
 
             // Shield badge bottom-right
             Positioned(right: size * 0.04, bottom: size * 0.10, child: _PulseBadge(
-              animation: anim, size: size * 0.11, colors: const [Color(0xFF10B981), Color(0xFF059669)], icon: 'shield', iconSize: size * 0.055, borderColor: Colors.white,
+              animation: anim, size: size * 0.11, colors: const [Color(0xFF002147), Color(0xFF001834)], icon: 'shield', iconSize: size * 0.055, borderColor: Colors.white,
             )),
 
             // Sparkle
@@ -531,9 +531,9 @@ class ScreenIllustrations {
                 SizedBox(width: size * 0.02),
                 _FloatOffset(animation: anim, dy: 4.0, phase: 0.33, child: _avatar(size * 0.33, AppColors.primary)),
                 SizedBox(width: size * 0.02),
-                _FloatOffset(animation: anim, dy: 3.0, phase: 0.66, child: _avatar(size * 0.26, const Color(0xFF10B981))),
+                _FloatOffset(animation: anim, dy: 3.0, phase: 0.66, child: _avatar(size * 0.26, const Color(0xFF002147))),
               ]),
-              Positioned(right: size * 0.06, bottom: size * 0.04, child: _PulseBadge(animation: anim, size: size * 0.19, colors: const [Color(0xFF10B981), Color(0xFF059669)], icon: 'tick-circle', iconSize: size * 0.10)),
+              Positioned(right: size * 0.06, bottom: size * 0.04, child: _PulseBadge(animation: anim, size: size * 0.19, colors: const [Color(0xFF002147), Color(0xFF001834)], icon: 'tick-circle', iconSize: size * 0.10)),
             ],
           );
         }
@@ -584,8 +584,8 @@ class ScreenIllustrations {
                       Container(width: size * 0.03, height: size * 0.03, decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         gradient: LinearGradient(colors: [
-                          [purple, const Color(0xFF10B981), const Color(0xFF3B82F6)][i],
-                          [deepPurple, const Color(0xFF059669), const Color(0xFF2563EB)][i],
+                          [purple, const Color(0xFF002147), const Color(0xFF3B82F6)][i],
+                          [deepPurple, const Color(0xFF001834), const Color(0xFF2563EB)][i],
                         ]),
                       ), child: AppIcon('profile-circle', size: size * 0.015, color: Colors.white)),
                       SizedBox(width: size * 0.008),
@@ -612,7 +612,7 @@ class ScreenIllustrations {
 
             // Check badge bottom-right
             Positioned(right: size * 0.04, bottom: size * 0.10, child: _PulseBadge(
-              animation: anim, size: size * 0.11, colors: const [Color(0xFF10B981), Color(0xFF059669)], icon: 'tick-circle', iconSize: size * 0.055, borderColor: Colors.white,
+              animation: anim, size: size * 0.11, colors: const [Color(0xFF002147), Color(0xFF001834)], icon: 'tick-circle', iconSize: size * 0.055, borderColor: Colors.white,
             )),
 
             // Sparkle
@@ -672,7 +672,7 @@ class ScreenIllustrations {
             child: _PulseBadge(
               animation: anim,
               size: size * 0.20,
-              colors: const [Color(0xFF10B981), Color(0xFF059669)],
+              colors: const [Color(0xFF002147), Color(0xFF001834)],
               icon: 'empty-wallet',
               iconSize: size * 0.10,
             ),
@@ -840,7 +840,7 @@ class ScreenIllustrations {
               child: _PulseBadge(
                 animation: anim,
                 size: size * 0.11,
-                colors: const [Color(0xFF10B981), Color(0xFF059669)],
+                colors: const [Color(0xFF002147), Color(0xFF001834)],
                 icon: 'verify',
                 iconSize: size * 0.055,
                 borderColor: Colors.white,
@@ -875,7 +875,7 @@ class ScreenIllustrations {
         final cardGrad1 = isDark ? const Color(0xFF1E3A5F) : const Color(0xFF1E293B);
         final cardGrad2 = isDark ? const Color(0xFF3B82F6) : const Color(0xFF334155);
         const goldAccent = Color(0xFFFBBF24);
-        const successGreen = Color(0xFF10B981);
+        const successGreen = Color(0xFF002147);
         final bgRingColor = isDark
             ? Colors.white.withValues(alpha: 0.08)
             : AppColors.primary.withValues(alpha: 0.06);
@@ -1032,7 +1032,7 @@ class ScreenIllustrations {
               child: _PulseBadge(
                 animation: anim,
                 size: size * 0.14,
-                colors: [successGreen, const Color(0xFF059669)],
+                colors: const [successGreen, Color(0xFF001834)],
                 icon: 'tick-circle',
                 iconSize: size * 0.07,
                 borderColor: Colors.white,
@@ -1124,7 +1124,7 @@ class ScreenIllustrations {
         const teal = Color(0xFF14B8A6);
         final bgRingColor = isDark
             ? Colors.white.withValues(alpha: 0.08)
-            : const Color(0xFF10B981).withValues(alpha: 0.06);
+            : const Color(0xFF002147).withValues(alpha: 0.06);
 
         return Stack(
           alignment: Alignment.center,
@@ -1137,7 +1137,7 @@ class ScreenIllustrations {
                 shape: BoxShape.circle,
                 color: isDark
                     ? Colors.white.withValues(alpha: 0.04)
-                    : const Color(0xFF10B981).withValues(alpha: 0.04),
+                    : const Color(0xFF002147).withValues(alpha: 0.04),
               ),
             ),
 
@@ -1486,7 +1486,7 @@ class ScreenIllustrations {
               child: _PulseBadge(
                 animation: anim,
                 size: size * 0.11,
-                colors: const [Color(0xFF10B981), Color(0xFF059669)],
+                colors: const [Color(0xFF002147), Color(0xFF001834)],
                 icon: 'tick-circle',
                 iconSize: size * 0.055,
                 borderColor: Colors.white,
@@ -1540,7 +1540,7 @@ class ScreenIllustrations {
               ),
               child: Row(
                 children: [
-                  for (final c in [const Color(0xFFEF4444), const Color(0xFFF59E0B), const Color(0xFF0D9B5C)])
+                  for (final c in [const Color(0xFFEF4444), const Color(0xFFF59E0B), const Color(0xFF002147)])
                     Container(
                       margin: EdgeInsets.only(right: size * 0.005),
                       width: size * 0.009,
