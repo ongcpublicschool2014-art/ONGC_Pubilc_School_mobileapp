@@ -15,6 +15,7 @@ import '../../providers/student_provider.dart';
 import '../../widgets/common/app_icon.dart';
 import '../../widgets/common/breadcrumb_bar.dart';
 import '../../widgets/common/desktop_detail_scaffold.dart';
+import '../../widgets/common/drill_down_icon_button.dart';
 
 class PayAllFeesScreen extends ConsumerStatefulWidget {
   const PayAllFeesScreen({super.key});
@@ -527,7 +528,8 @@ class _PayAllFeesScreenState extends ConsumerState<PayAllFeesScreen> {
       child: Row(
         children: [
           // Back Button
-          GestureDetector(
+          DrillDownIconButton(
+            svgPath: 'assets/icons/arrow-left.svg',
             onTap: () {
               if (context.canPop()) {
                 context.pop();
@@ -535,19 +537,6 @@ class _PayAllFeesScreenState extends ConsumerState<PayAllFeesScreen> {
                 context.go(Routes.home);
               }
             },
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: AppColors.iconButtonBg(context),
-                shape: BoxShape.circle,
-                border: Border.all(color: AppColors.iconButtonBorder(context)),
-                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
-              ),
-              child: Center(
-                child: SvgPicture.asset('assets/icons/arrow-left.svg', width: 20, height: 20, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
-              ),
-            ),
           ),
 
           // Title
@@ -570,48 +559,10 @@ class _PayAllFeesScreenState extends ConsumerState<PayAllFeesScreen> {
           ],
 
           // Notification Icon - Dark theme with badge
-          GestureDetector(
+          DrillDownIconButton(
+            svgPath: 'assets/main icons/line icons/notification.svg',
+            badgeCount: notificationCount,
             onTap: () => context.go(Routes.notifications),
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: AppColors.iconButtonBg(context),
-                shape: BoxShape.circle,
-                border: Border.all(color: AppColors.iconButtonBorder(context)),
-                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
-              ),
-              child: Stack(
-                clipBehavior: Clip.none,
-                alignment: Alignment.center,
-                children: [
-                  SvgPicture.asset('assets/main icons/line icons/notification.svg', width: 20, height: 20, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
-                  if (notificationCount > 0)
-                    Positioned(
-                      top: -4,
-                      right: -4,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
-                        decoration: BoxDecoration(
-                          color: AppColors.error,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: AppColors.iconButtonBg(context), width: 2),
-                        ),
-                        child: Text(
-                          notificationCount > 9 ? '9+' : '$notificationCount',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 9,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
           ),
         ],
       ),
@@ -628,7 +579,7 @@ class _PayAllFeesScreenState extends ConsumerState<PayAllFeesScreen> {
       children: [
         CircleAvatar(
           radius: 16,
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.secondary,
           backgroundImage: (student.photoUrl != null && student.photoUrl!.isNotEmpty)
               ? NetworkImage(student.photoUrl!) : null,
           child: (student.photoUrl == null || student.photoUrl!.isEmpty)

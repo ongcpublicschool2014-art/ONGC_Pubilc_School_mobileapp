@@ -208,10 +208,10 @@ class _InstitutionSelectorState extends ConsumerState<InstitutionSelector> {
                           )
                         : CircleAvatar(
                             radius: 20,
-                            backgroundColor: AppColors.primary.withValues(alpha: 0.1),
+                            backgroundColor: AppColors.secondary.withValues(alpha: 0.15),
                             child: AppIcon(
                               'book',
-                              color: AppColors.primary,
+                              color: AppColors.secondary,
                               size: 20,
                             ),
                           ),

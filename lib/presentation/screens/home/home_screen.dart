@@ -15,6 +15,7 @@ import '../../providers/notification_provider.dart';
 import '../../providers/institution_provider.dart';
 import '../../../core/utils/extensions.dart';
 import '../../widgets/common/desktop_content_card.dart';
+import '../../widgets/common/header_icon_button.dart';
 import '../../../core/utils/birthday_utils.dart';
 import '../../widgets/common/app_icon.dart';
 import '../../widgets/common/birthday_dialog.dart';
@@ -324,51 +325,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     required int badgeCount,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    return HeaderIconButton(
+      icon: icon,
+      svgPath: svgPath,
+      badgeCount: badgeCount,
       onTap: onTap,
-      child: Container(
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(
-          color: const Color(0xFFD2913C),
-          shape: BoxShape.circle,
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x26000000),
-              blurRadius: 12,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.center,
-          children: [
-            svgPath != null
-                ? SvgPicture.asset(svgPath, width: 20, height: 20, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn))
-                : Icon(icon, size: 20, color: Colors.white),
-            if (badgeCount > 0)
-              Positioned(
-                top: -3,
-                right: -3,
-                child: Container(
-                  padding: const EdgeInsets.all(3),
-                  constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
-                  decoration: BoxDecoration(
-                    color: AppColors.error,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 1.5),
-                  ),
-                  child: Text(
-                    badgeCount > 9 ? '9+' : '$badgeCount',
-                    style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
     );
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../config/routes.dart';
@@ -12,9 +11,11 @@ import '../../../core/services/supabase_service.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/notification_provider.dart';
 import '../../providers/student_provider.dart';
+import '../../widgets/common/amber_button.dart';
 import '../../widgets/common/app_icon.dart';
 import '../../widgets/common/breadcrumb_bar.dart';
 import '../../widgets/common/desktop_detail_scaffold.dart';
+import '../../widgets/common/drill_down_icon_button.dart';
 
 class NotificationDetailScreen extends ConsumerStatefulWidget {
   final String notificationId;
@@ -266,21 +267,9 @@ class _NotificationDetailScreenState
       child: Row(
         children: [
           // Back Button - Dark theme
-          GestureDetector(
+          DrillDownIconButton(
+            svgPath: 'assets/icons/arrow-left.svg',
             onTap: () => context.pop(),
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: AppColors.iconButtonBg(context),
-                shape: BoxShape.circle,
-                border: Border.all(color: AppColors.iconButtonBorder(context)),
-                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
-              ),
-              child: Center(
-                child: SvgPicture.asset('assets/icons/arrow-left.svg', width: 20, height: 20, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
-              ),
-            ),
           ),
           // Title
           Expanded(
@@ -314,7 +303,7 @@ class _NotificationDetailScreenState
       children: [
         CircleAvatar(
           radius: 16,
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.secondary,
           backgroundImage: (student.photoUrl != null && student.photoUrl!.isNotEmpty)
               ? NetworkImage(student.photoUrl!) : null,
           child: (student.photoUrl == null || student.photoUrl!.isEmpty)
@@ -357,9 +346,9 @@ class _NotificationDetailScreenState
       case NotificationType.dueDateApproaching:
         return const Color(0xFFFFF8E1);
       case NotificationType.paymentSuccess:
-        return const Color(0xFFE8F5E9);
+        return const Color(0xFFD1FAE5);
       case NotificationType.paymentFailed:
-        return const Color(0xFFFFEBEE);
+        return const Color(0xFFFEE2E2);
       case NotificationType.alert:
         return const Color(0xFFFFEBEE);
       case NotificationType.announcement:
@@ -383,13 +372,13 @@ class _NotificationDetailScreenState
         break;
       case NotificationType.paymentSuccess:
         icon = 'tick-circle';
-        bgColor = const Color(0xFFD1FAE5);
-        iconColor = const Color(0xFF10B981);
+        bgColor = const Color(0xFFA7F3D0);
+        iconColor = const Color(0xFF047857);
         break;
       case NotificationType.paymentFailed:
         icon = 'close-circle';
-        bgColor = const Color(0xFFFEE2E2);
-        iconColor = const Color(0xFFEF4444);
+        bgColor = const Color(0xFFFECACA);
+        iconColor = const Color(0xFFB91C1C);
         break;
       case NotificationType.alert:
         icon = 'warning-2';
@@ -438,13 +427,13 @@ class _NotificationDetailScreenState
         break;
       case NotificationType.paymentSuccess:
         label = 'Payment Success';
-        bgColor = const Color(0xFFD1FAE5);
-        textColor = const Color(0xFF047857);
+        bgColor = const Color(0xFFA7F3D0);
+        textColor = const Color(0xFF065F46);
         break;
       case NotificationType.paymentFailed:
         label = 'Payment Failed';
-        bgColor = const Color(0xFFFEE2E2);
-        textColor = const Color(0xFFDC2626);
+        bgColor = const Color(0xFFFECACA);
+        textColor = const Color(0xFF991B1B);
         break;
       case NotificationType.alert:
         label = 'Alert';
@@ -694,45 +683,55 @@ class _NotificationDetailScreenState
   }
 
   Widget _buildActionButton(NotificationModel notification) {
-    String buttonText;
-    String buttonIcon;
-    Color buttonColor;
-    VoidCallback onTap;
-
     // Extract pay_id from notification data for navigation
     final payId = notification.data?['pay_id'];
 
     switch (notification.type) {
       case NotificationType.feeReminder:
       case NotificationType.dueDateApproaching:
-        buttonText = 'Pay Now';
-        buttonIcon = 'wallet-3';
-        buttonColor = const Color(0xFFD2913C);
         final demIds = notification.data?['dem_ids'] as List<dynamic>? ?? [];
-        onTap = () => _handlePayFees(
-              demIds,
-              isUpcoming: notification.id == 'fee_upcoming_summary',
-            );
-        break;
+        return _legacyActionButton(
+          label: 'Pay Now',
+          icon: 'wallet-3',
+          color: const Color(0xFFD2913C),
+          onTap: () => _handlePayFees(
+            demIds,
+            isUpcoming: notification.id == 'fee_upcoming_summary',
+          ),
+        );
       case NotificationType.paymentSuccess:
-        return const SizedBox.shrink();
+        if (payId == null) return const SizedBox.shrink();
+        return AmberButton(
+          label: 'View Transaction',
+          icon: 'arrow-right-1',
+          height: 56,
+          onPressed: () => context.push('${Routes.transactionDetails}/$payId'),
+        );
       case NotificationType.paymentFailed:
-        buttonText = 'Retry Payment';
-        buttonIcon = 'refresh';
-        buttonColor = const Color(0xFFEF4444);
-        onTap = () => _handleRetryPayment(payId);
-        break;
+        return _legacyActionButton(
+          label: 'Retry Payment',
+          icon: 'refresh',
+          color: const Color(0xFFEF4444),
+          onTap: () => _handleRetryPayment(payId),
+        );
       default:
         return const SizedBox.shrink();
     }
+  }
 
+  Widget _legacyActionButton({
+    required String label,
+    required String icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
     return SizedBox(
       width: double.infinity,
       height: 56,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: buttonColor,
+          backgroundColor: color,
           foregroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -742,14 +741,11 @@ class _NotificationDetailScreenState
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AppIcon(buttonIcon, size: 20, color: Colors.white),
+            AppIcon(icon, size: 20, color: Colors.white),
             const SizedBox(width: 10),
             Text(
-              buttonText,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              label,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ],
         ),

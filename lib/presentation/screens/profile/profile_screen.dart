@@ -13,6 +13,7 @@ import '../../providers/cart_provider.dart';
 import '../../providers/notification_provider.dart';
 import '../../providers/institution_provider.dart';
 import '../../widgets/common/app_icon.dart';
+import '../../widgets/common/header_icon_button.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -57,7 +58,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               context.go(Routes.welcome);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: _textDark,
+              backgroundColor: AppColors.error,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
@@ -286,51 +287,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     required int badgeCount,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    return HeaderIconButton(
+      icon: icon,
+      svgPath: svgPath,
+      badgeCount: badgeCount,
       onTap: onTap,
-      child: Container(
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(
-          color: const Color(0xFFD2913C),
-          shape: BoxShape.circle,
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x26000000),
-              blurRadius: 12,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.center,
-          children: [
-            svgPath != null
-                ? SvgPicture.asset(svgPath, width: 20, height: 20, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn))
-                : Icon(icon, size: 20, color: Colors.white),
-            if (badgeCount > 0)
-              Positioned(
-                top: -3,
-                right: -3,
-                child: Container(
-                  padding: const EdgeInsets.all(3),
-                  constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
-                  decoration: BoxDecoration(
-                    color: AppColors.error,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 1.5),
-                  ),
-                  child: Text(
-                    badgeCount > 9 ? '9+' : '$badgeCount',
-                    style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -660,55 +621,90 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     required bool filled,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 13),
-        decoration: BoxDecoration(
-          color: filled ? const Color(0xFFD2913C) : _cardBg,
+    final fg = filled ? Colors.white : const Color(0xFFD2913C);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: filled
+            ? [
+                BoxShadow(
+                  color: const Color(0xFFD2913C).withValues(alpha: 0.35),
+                  blurRadius: 12,
+                  offset: const Offset(0, 6),
+                ),
+              ]
+            : null,
+      ),
+      child: Material(
+        color: filled ? const Color(0xFFD2913C) : _cardBg,
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          onTap: onTap,
           borderRadius: BorderRadius.circular(12),
-          border: filled ? null : Border.all(color: const Color(0xFFD2913C), width: 1.5),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AppIcon(iconName, size: 18, color: filled ? Colors.white : const Color(0xFFD2913C)),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: filled ? Colors.white : const Color(0xFFD2913C),
-              ),
+          hoverColor: Colors.black.withValues(alpha: filled ? 0.06 : 0.04),
+          focusColor: Colors.black.withValues(alpha: filled ? 0.10 : 0.08),
+          splashColor: Colors.black.withValues(alpha: filled ? 0.22 : 0.14),
+          highlightColor: Colors.black.withValues(alpha: filled ? 0.12 : 0.06),
+          mouseCursor: SystemMouseCursors.click,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 13),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: filled
+                  ? null
+                  : Border.all(color: const Color(0xFFD2913C), width: 1.5),
             ),
-          ],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AppIcon(iconName, size: 18, color: fg),
+                const SizedBox(width: 8),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: fg,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
   Widget _buildSignOutButton() {
-    return GestureDetector(
-      onTap: () => _showLogoutDialog(context),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        decoration: BoxDecoration(
-          color: _cardBg,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: _cardBorder),
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AppIcon('logout', size: 18, color: _textMedium),
-            SizedBox(width: 8),
-            Text(
-              'Sign Out',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _textMedium),
-            ),
-          ],
+    return Material(
+      color: _cardBg,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        onTap: () => _showLogoutDialog(context),
+        borderRadius: BorderRadius.circular(14),
+        hoverColor: AppColors.error.withValues(alpha: 0.04),
+        focusColor: AppColors.error.withValues(alpha: 0.08),
+        splashColor: AppColors.error.withValues(alpha: 0.14),
+        highlightColor: AppColors.error.withValues(alpha: 0.06),
+        mouseCursor: SystemMouseCursors.click,
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: _cardBorder),
+          ),
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AppIcon('logout', size: 18, color: _textMedium),
+              SizedBox(width: 8),
+              Text(
+                'Sign Out',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _textMedium),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -783,29 +779,47 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     required String label,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: BoxDecoration(
-          color: const Color(0xFFD2913C),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFD2913C).withValues(alpha: 0.35),
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Material(
+        color: const Color(0xFFD2913C),
+        borderRadius: BorderRadius.circular(14),
+        child: InkWell(
+          onTap: onTap,
           borderRadius: BorderRadius.circular(14),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AppIcon(iconName, size: 20, color: Colors.white),
-            const SizedBox(width: 10),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
+          hoverColor: Colors.black.withValues(alpha: 0.06),
+          focusColor: Colors.black.withValues(alpha: 0.10),
+          splashColor: Colors.black.withValues(alpha: 0.22),
+          highlightColor: Colors.black.withValues(alpha: 0.12),
+          mouseCursor: SystemMouseCursors.click,
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AppIcon(iconName, size: 20, color: Colors.white),
+                const SizedBox(width: 10),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

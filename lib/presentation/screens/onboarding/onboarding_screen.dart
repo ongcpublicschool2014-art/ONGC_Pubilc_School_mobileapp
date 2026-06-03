@@ -5,6 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_sizes.dart';
 import '../../../core/utils/extensions.dart';
 import '../../../config/routes.dart';
+import '../../widgets/common/amber_button.dart';
 import '../../widgets/common/app_icon.dart';
 import '../../widgets/common/desktop_left_panel.dart';
 import '../../widgets/common/screen_illustrations.dart';
@@ -239,40 +240,22 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       // Pagination dots
                       _buildPaginationDots(),
                       const Spacer(flex: 1),
-                      // Full-width dark Next button
-                      GestureDetector(
-                        onTap: _nextPage,
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFD2913C),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Center(
-                            child: Text(
-                              isLastPage ? 'Get Started' : 'Next',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                letterSpacing: 0.3,
-                              ),
-                            ),
-                          ),
-                        ),
+                      // Full-width amber Next/Get Started button
+                      AmberButton(
+                        label: isLastPage ? 'Get Started' : 'Next',
+                        height: 56,
+                        onPressed: _nextPage,
                       ),
                       // Skip link below button
                       if (!isLastPage) ...[
                         const SizedBox(height: 12),
-                        GestureDetector(
-                          onTap: _completeOnboarding,
+                        TextButton(
+                          onPressed: _completeOnboarding,
                           child: const Text(
                             'Skip',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: Color(0xFF6B6B6B),
                             ),
                           ),
                         ),
@@ -486,89 +469,23 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   }
 
   Widget _buildNextButton(bool isLastPage) {
-    return GestureDetector(
-      onTap: _nextPage,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        decoration: BoxDecoration(
-          color: AppColors.primary,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.24),
-              blurRadius: 1,
-              offset: Offset.zero,
-            ),
-            BoxShadow(
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.transparent
-                  : const Color(0xFFE5E7EB),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              isLastPage ? 'Get Started' : 'Next',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-                letterSpacing: 0.3,
-              ),
-            ),
-            const SizedBox(width: 10),
-            const AppIcon(
-              'arrow-right-1',
-              size: 20,
-              color: Colors.white,
-            ),
-          ],
-        ),
-      ),
+    return AmberButton(
+      label: isLastPage ? 'Get Started' : 'Next',
+      icon: 'arrow-right-1',
+      height: 52,
+      radius: 8,
+      fullWidth: false,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      onPressed: _nextPage,
     );
   }
 
   Widget _buildDesktopNextButton(bool isLastPage) {
-    return GestureDetector(
-      onTap: _nextPage,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: BoxDecoration(
-          color: const Color(0xFFD2913C),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.4),
-              blurRadius: 16,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              isLastPage ? 'Get Started' : 'Next',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(width: 10),
-            const AppIcon(
-              'arrow-right-1',
-              size: 20,
-              color: Colors.white,
-            ),
-          ],
-        ),
-      ),
+    return AmberButton(
+      label: isLastPage ? 'Get Started' : 'Next',
+      icon: 'arrow-right-1',
+      height: 52,
+      onPressed: _nextPage,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_sizes.dart';
+import '../../../core/theme/button_styles.dart';
 
 enum AppButtonVariant { filled, outlined, text }
 
@@ -64,38 +65,47 @@ class AppButton extends StatelessWidget {
   }
 
   Widget _buildButton(bool isDisabled) {
+    // Per-instance overrides applied on top of the centralised state-aware
+    // styles. backgroundColor / textColor only override the default state;
+    // hover / pressed / focused / disabled keep their state-resolved values.
+    ButtonStyle merge(ButtonStyle base) {
+      final bg = backgroundColor;
+      final fg = textColor;
+      if (bg == null && fg == null) return base;
+      return base.copyWith(
+        backgroundColor: bg == null
+            ? null
+            : WidgetStateProperty.resolveWith((s) {
+                if (s.contains(WidgetState.disabled) ||
+                    s.contains(WidgetState.pressed) ||
+                    s.contains(WidgetState.hovered) ||
+                    s.contains(WidgetState.focused)) {
+                  return base.backgroundColor?.resolve(s);
+                }
+                return bg;
+              }),
+        foregroundColor: fg == null ? null : WidgetStateProperty.all(fg),
+      );
+    }
+
     switch (variant) {
       case AppButtonVariant.filled:
         return ElevatedButton(
           onPressed: isDisabled ? null : onPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: backgroundColor ?? AppColors.primary,
-            disabledBackgroundColor: AppColors.gray300,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
+          style: merge(AppButtonStyles.elevated(radius: 8)),
           child: _buildContent(textColor ?? Colors.white),
         );
       case AppButtonVariant.outlined:
         return OutlinedButton(
           onPressed: isDisabled ? null : onPressed,
-          style: OutlinedButton.styleFrom(
-            side: BorderSide(
-              color: isDisabled
-                  ? AppColors.gray300
-                  : (backgroundColor ?? AppColors.primary),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: _buildContent(textColor ?? AppColors.primary),
+          style: merge(AppButtonStyles.outlined(radius: 8)),
+          child: _buildContent(textColor ?? AppColors.buttonPrimary),
         );
       case AppButtonVariant.text:
         return TextButton(
           onPressed: isDisabled ? null : onPressed,
-          child: _buildContent(textColor ?? AppColors.primary),
+          style: merge(AppButtonStyles.text()),
+          child: _buildContent(textColor ?? AppColors.buttonPrimary),
         );
     }
   }

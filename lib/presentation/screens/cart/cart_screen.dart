@@ -22,9 +22,11 @@ import '../../providers/payment_provider.dart';
 import '../../providers/notification_provider.dart';
 import '../../providers/student_provider.dart';
 import '../../../core/utils/extensions.dart';
+import '../../widgets/common/amber_button.dart';
 import '../../widgets/common/app_icon.dart';
 import '../../widgets/common/breadcrumb_bar.dart';
 import '../../widgets/common/desktop_detail_scaffold.dart';
+import '../../widgets/common/drill_down_icon_button.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
   final bool isStandalone;
@@ -155,7 +157,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Back Button - Dark theme
-          GestureDetector(
+          DrillDownIconButton(
+            svgPath: 'assets/icons/arrow-left.svg',
             onTap: () {
               if (context.canPop()) {
                 context.pop();
@@ -163,19 +166,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 context.go(Routes.home);
               }
             },
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: AppColors.iconButtonBg(context),
-                shape: BoxShape.circle,
-                border: Border.all(color: AppColors.iconButtonBorder(context)),
-                boxShadow: const [BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4))],
-              ),
-              child: Center(
-                child: SvgPicture.asset('assets/icons/arrow-left.svg', width: 20, height: 20, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
-              ),
-            ),
           ),
 
           // Title
@@ -923,37 +913,13 @@ class _CartScreenState extends ConsumerState<CartScreen> {
               ),
             ],
           ),
-          GestureDetector(
-            onTap: () => _handleProceedToPayment(),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
-              decoration: BoxDecoration(
-                color: const Color(0xFFD2913C),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.4),
-                    blurRadius: 16,
-                    offset: const Offset(0, 6),
-                  ),
-                ],
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Pay Now',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  AppIcon('arrow-right-1', size: 20, color: Colors.white),
-                ],
-              ),
-            ),
+          AmberButton(
+            label: 'Pay Now',
+            icon: 'arrow-right-1',
+            height: 52,
+            fullWidth: false,
+            padding: const EdgeInsets.symmetric(horizontal: 28),
+            onPressed: () => _handleProceedToPayment(),
           ),
         ],
       ),
