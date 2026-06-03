@@ -103,7 +103,7 @@ class FeeSummaryCard extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: onPayNowTap,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
+                  backgroundColor: AppColors.buttonPrimary,
                   padding: const EdgeInsets.symmetric(vertical: AppSizes.s3),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppSizes.roundedLg),

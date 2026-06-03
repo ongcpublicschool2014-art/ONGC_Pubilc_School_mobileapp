@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
+import '../core/theme/button_styles.dart';
 
 class AppTheme {
   AppTheme._();
@@ -94,53 +95,9 @@ class AppTheme {
           color: AppColors.textPrimary,
         ),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSizes.s6,
-            vertical: AppSizes.s4,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.roundedLg),
-          ),
-          textStyle: const TextStyle(
-            fontFamily: 'Inter',
-            fontSize: AppSizes.buttonText,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primary,
-          side: const BorderSide(color: AppColors.primary),
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSizes.s6,
-            vertical: AppSizes.s4,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.roundedLg),
-          ),
-          textStyle: const TextStyle(
-            fontFamily: 'Inter',
-            fontSize: AppSizes.buttonText,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: AppColors.primary,
-          textStyle: const TextStyle(
-            fontFamily: 'Inter',
-            fontSize: AppSizes.buttonText,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(style: AppButtonStyles.elevated()),
+      outlinedButtonTheme: OutlinedButtonThemeData(style: AppButtonStyles.outlined()),
+      textButtonTheme: TextButtonThemeData(style: AppButtonStyles.text()),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surface,
@@ -288,53 +245,9 @@ class AppTheme {
           color: _darkTextPrimary,
         ),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSizes.s6,
-            vertical: AppSizes.s4,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.roundedLg),
-          ),
-          textStyle: const TextStyle(
-            fontFamily: 'Inter',
-            fontSize: AppSizes.buttonText,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primary,
-          side: const BorderSide(color: AppColors.primary),
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSizes.s6,
-            vertical: AppSizes.s4,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.roundedLg),
-          ),
-          textStyle: const TextStyle(
-            fontFamily: 'Inter',
-            fontSize: AppSizes.buttonText,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: AppColors.primary,
-          textStyle: const TextStyle(
-            fontFamily: 'Inter',
-            fontSize: AppSizes.buttonText,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(style: AppButtonStyles.elevated()),
+      outlinedButtonTheme: OutlinedButtonThemeData(style: AppButtonStyles.outlined()),
+      textButtonTheme: TextButtonThemeData(style: AppButtonStyles.text()),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: _darkSurface,

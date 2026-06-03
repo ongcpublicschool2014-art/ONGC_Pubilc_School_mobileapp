@@ -160,9 +160,11 @@ class AppColors {
   static const Color avatarBg = Color(0xFFD2913C); // Amber avatar background
   static const Color avatarText = Color(0xFFFFFFFF);
 
-  // Button Colors - Amber primary action
+  // Button Colors - Amber primary action with interaction states
   static const Color buttonPrimary = Color(0xFFD2913C);
-  static const Color buttonPrimaryHover = Color(0xFFB5752A);
+  static const Color buttonPrimaryHover = Color(0xFFB5752A);   // hover + focused
+  static const Color buttonPrimaryPressed = Color(0xFFA66A24); // pressed / active
+  static const Color buttonPrimaryDisabled = Color(0xFFE8C896);
   static const Color buttonSecondary = Color(0xFFFFFFFF);
   static const Color buttonSecondaryBorder = Color(0xFFE5E7EB);
   static const Color buttonDanger = Color(0xFFEF4444);

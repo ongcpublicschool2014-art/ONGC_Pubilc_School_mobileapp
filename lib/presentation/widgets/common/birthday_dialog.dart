@@ -130,7 +130,7 @@ class _BirthdayDialogState extends State<BirthdayDialog>
                       child: ElevatedButton(
                         onPressed: widget.onDismiss,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: AppColors.buttonPrimary,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
