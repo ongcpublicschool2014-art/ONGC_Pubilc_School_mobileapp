@@ -54,13 +54,13 @@ class StudentCard extends StatelessWidget {
 
     return CircleAvatar(
       radius: 28,
-      backgroundColor: AppColors.primary100,
+      backgroundColor: AppColors.avatarBg,
       child: Text(
         student.name.isNotEmpty ? student.name[0].toUpperCase() : '?',
         style: const TextStyle(
           fontSize: AppSizes.textXl,
           fontWeight: FontWeight.bold,
-          color: AppColors.primary,
+          color: AppColors.avatarText,
         ),
       ),
     );

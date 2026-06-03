@@ -448,47 +448,59 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   }
 
   Widget _buildGetOtpButton() {
-    return GestureDetector(
-      onTap: _isLoading ? null : _handleRequestOtp,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: BoxDecoration(
-          color: const Color(0xFFD2913C),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: _isLoading
+            ? null
+            : [
+                BoxShadow(
+                  color: const Color(0xFFD2913C).withValues(alpha: 0.4),
+                  blurRadius: 16,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+      ),
+      child: Material(
+        color: _isLoading ? const Color(0xFFE8C896) : const Color(0xFFD2913C),
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onTap: _isLoading ? null : _handleRequestOtp,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.4),
-              blurRadius: 16,
-              offset: const Offset(0, 8),
+          hoverColor: Colors.black.withValues(alpha: 0.06),
+          focusColor: Colors.black.withValues(alpha: 0.10),
+          splashColor: Colors.black.withValues(alpha: 0.22),
+          highlightColor: Colors.black.withValues(alpha: 0.12),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (_isLoading)
+                  const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  )
+                else ...[
+                  const Text(
+                    'Get OTP',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  const AppIcon('send', size: 22, color: Colors.white),
+                ],
+              ],
             ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (_isLoading)
-              const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              )
-            else ...[
-              const Text(
-                'Get OTP',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(width: 10),
-              const AppIcon('send', size: 22, color: Colors.white),
-            ],
-          ],
+          ),
         ),
       ),
     );
@@ -513,7 +525,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              color: AppColors.primary,
+              color: AppColors.textLink,
             ),
           ),
         ),

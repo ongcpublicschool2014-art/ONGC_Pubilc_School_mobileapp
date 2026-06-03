@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/extensions.dart';
 import '../../../config/routes.dart';
+import '../../widgets/common/amber_button.dart';
 import '../../widgets/common/desktop_left_panel.dart';
-import '../../widgets/common/screen_illustrations.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -103,7 +103,12 @@ class WelcomeScreen extends StatelessWidget {
           child: DesktopLeftPanel(
             headline: 'Welcome to SchoolPay',
             subtitle: 'Pay school fees with ease',
-            centerContent: ScreenIllustrations.welcomeDark(size: 360),
+            centerContent: Image.asset(
+              'assets/images/educore360_logo.png',
+              width: 360,
+              height: 360,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
 
@@ -179,81 +184,69 @@ class WelcomeScreen extends StatelessWidget {
   // â”€â”€â”€ Shared widgets â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildLogo(BuildContext context, double size) {
-    return ScreenIllustrations.welcome(size: size);
+    return Image.asset(
+      'assets/images/educore360_logo.png',
+      width: size,
+      height: size,
+      fit: BoxFit.contain,
+    );
   }
 
   Widget _buildSignInButton(BuildContext context) {
-    return GestureDetector(
-      onTap: () => context.push(Routes.signIn),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 18),
-        decoration: BoxDecoration(
-          color: const Color(0xFFD2913C),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Sign In',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(width: 10),
-            SvgPicture.asset(
-              'assets/icons/linear/login.svg',
-              width: 20,
-              height: 20,
-              colorFilter:
-                  const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-            ),
-          ],
-        ),
-      ),
+    return AmberButton(
+      label: 'Sign In',
+      icon: 'login',
+      height: 56,
+      onPressed: () => context.push(Routes.signIn),
     );
   }
 
   Widget _buildCreateAccountButton(BuildContext context) {
     final isMobile = !context.isDesktop;
-    return GestureDetector(
-      onTap: () => context.push(Routes.signUp),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 18),
-        decoration: BoxDecoration(
-          color: isMobile ? Colors.white : AppColors.cardBg(context),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isMobile ? const Color(0xFFE8E7E4) : AppColors.primary,
-            width: isMobile ? 1 : 2,
+    final fg = isMobile ? const Color(0xFF1A1A1A) : AppColors.primary;
+    return Material(
+      color: isMobile ? Colors.white : AppColors.cardBg(context),
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        onTap: () => context.push(Routes.signUp),
+        borderRadius: BorderRadius.circular(16),
+        hoverColor: const Color(0xFFD2913C).withValues(alpha: 0.06),
+        focusColor: const Color(0xFFD2913C).withValues(alpha: 0.10),
+        splashColor: const Color(0xFFD2913C).withValues(alpha: 0.14),
+        highlightColor: const Color(0xFFD2913C).withValues(alpha: 0.06),
+        mouseCursor: SystemMouseCursors.click,
+        child: Ink(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: isMobile ? const Color(0xFFE8E7E4) : AppColors.primary,
+              width: isMobile ? 1 : 2,
+            ),
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Create Account',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: isMobile ? const Color(0xFF1A1A1A) : AppColors.primary,
-              ),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 18),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Create Account',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: fg,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                SvgPicture.asset(
+                  'assets/icons/linear/user-add.svg',
+                  width: 20,
+                  height: 20,
+                  colorFilter: ColorFilter.mode(fg, BlendMode.srcIn),
+                ),
+              ],
             ),
-            const SizedBox(width: 10),
-            SvgPicture.asset(
-              'assets/icons/linear/user-add.svg',
-              width: 20,
-              height: 20,
-              colorFilter: ColorFilter.mode(
-                isMobile ? const Color(0xFF1A1A1A) : AppColors.primary,
-                BlendMode.srcIn,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

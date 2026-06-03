@@ -329,6 +329,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   child: Container(
                     width: size,
                     height: size,
+                    padding: EdgeInsets.all(size * 0.12),
                     decoration: BoxDecoration(
                       color: context.isDesktop
                           ? Colors.white.withValues(alpha: 0.15)
@@ -349,66 +350,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                               ),
                             ],
                     ),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          width: size * 0.53,
-                          height: size * 0.53,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: context.isDesktop
-                                  ? [Colors.white, Colors.white.withValues(alpha: 0.9)]
-                                  : [AppColors.primary, AppColors.primary600],
-                            ),
-                            borderRadius: BorderRadius.circular(size * 0.15),
-                          ),
-                          child: AppIcon(
-                            'book',
-                            size: size * 0.3,
-                            color: context.isDesktop ? AppColors.primary : Colors.white,
-                          ),
-                        ),
-                        Positioned(
-                          right: size * 0.13,
-                          bottom: size * 0.13,
-                          child: Container(
-                            width: size * 0.27,
-                            height: size * 0.27,
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Color(0xFF2E4F7A),
-                                  Color(0xFF002147),
-                                ],
-                              ),
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: context.isDesktop
-                                    ? Colors.white.withValues(alpha: 0.3)
-                                    : AppColors.cardBg(context),
-                                width: 3,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0xFF002147).withValues(alpha: 0.3),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: AppIcon(
-                              'empty-wallet',
-                              size: size * 0.13,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
+                    child: Image.asset(
+                      'assets/images/educore360_logo.png',
+                      fit: BoxFit.contain,
                     ),
                   ),
                 );

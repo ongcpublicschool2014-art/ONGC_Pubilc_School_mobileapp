@@ -19,13 +19,11 @@ class FloatingCartButton extends ConsumerWidget {
     return Positioned(
       right: 16,
       bottom: 100, // Above bottom nav
-      child: GestureDetector(
-        onTap: () => context.push(Routes.cartStandalone),
-        child: Container(
-          width: 60,
-          height: 60,
+      child: SizedBox(
+        width: 60,
+        height: 60,
+        child: DecoratedBox(
           decoration: BoxDecoration(
-            color: AppColors.accent,
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
@@ -35,36 +33,48 @@ class FloatingCartButton extends ConsumerWidget {
               ),
             ],
           ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              const AppIcon('shopping-cart', size: 28, color: Colors.white),
-              // Badge
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  constraints: const BoxConstraints(
-                    minWidth: 20,
-                    minHeight: 20,
-                  ),
-                  decoration: const BoxDecoration(
-                    color: AppColors.error,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    cartState.itemCount > 9 ? '9+' : '${cartState.itemCount}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
+          child: Material(
+            color: AppColors.accent,
+            shape: const CircleBorder(),
+            child: InkWell(
+              onTap: () => context.push(Routes.cartStandalone),
+              customBorder: const CircleBorder(),
+              hoverColor: Colors.black.withValues(alpha: 0.06),
+              focusColor: Colors.black.withValues(alpha: 0.10),
+              splashColor: Colors.black.withValues(alpha: 0.22),
+              highlightColor: Colors.black.withValues(alpha: 0.12),
+              mouseCursor: SystemMouseCursors.click,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  const AppIcon('shopping-cart', size: 28, color: Colors.white),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      constraints: const BoxConstraints(
+                        minWidth: 20,
+                        minHeight: 20,
+                      ),
+                      decoration: const BoxDecoration(
+                        color: AppColors.error,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        cartState.itemCount > 9 ? '9+' : '${cartState.itemCount}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

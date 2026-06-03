@@ -253,7 +253,7 @@ class _StudentSelectionScreenState extends ConsumerState<StudentSelectionScreen>
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [AppColors.primary, AppColors.primary600],
+                  colors: [Color(0xFFE5A85C), Color(0xFFD2913C)],
                 ),
                 shape: BoxShape.circle,
               ),
