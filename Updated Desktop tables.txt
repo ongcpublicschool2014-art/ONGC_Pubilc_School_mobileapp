@@ -1,0 +1,850 @@
+-- Table: public.activitytype
+
+-- DROP TABLE IF EXISTS public.activitytype;
+
+CREATE TABLE IF NOT EXISTS public.activitytype
+(
+    act_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    ins_id integer NOT NULL,
+    mod_id integer NOT NULL,
+    actname character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    actshort character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    seqapplicable character(1) COLLATE pg_catalog."default" NOT NULL,
+    createdon timestamp without time zone NOT NULL DEFAULT now(),
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT activitytype_pkey PRIMARY KEY (act_id),
+    CONSTRAINT fk_activitytype_module FOREIGN KEY (mod_id)
+        REFERENCES public.modules (mod_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT activitytype_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1])),
+    CONSTRAINT activitytype_seqapplicable_check CHECK (seqapplicable = ANY (ARRAY['Y'::bpchar, 'N'::bpchar]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.activitytype
+    OWNER to postgres;
+
+-- Table: public.challan
+
+-- DROP TABLE IF EXISTS public.challan;
+
+CREATE TABLE IF NOT EXISTS public.challan
+(
+    cha_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    ins_id integer,
+    inscode character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    yr_id integer,
+    yrlabel character varying(9) COLLATE pg_catalog."default",
+    stu_id bigint NOT NULL,
+    stuadmno character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    stuname character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    chano character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    fcseqtype character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    stuclass character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    feeamount numeric(15,2) NOT NULL,
+    fcduedate date NOT NULL,
+    partialpayment character(1) COLLATE pg_catalog."default" NOT NULL,
+    paidamount numeric(15,2) DEFAULT 0,
+    balancedue numeric(15,2),
+    paidstatus character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT 'U'::bpchar,
+    createdby character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    createdat timestamp without time zone NOT NULL DEFAULT now(),
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT fk_challan_institution FOREIGN KEY (ins_id)
+        REFERENCES public.institution (ins_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk_challan_year FOREIGN KEY (yr_id)
+        REFERENCES public.year (yr_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT challan_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1])),
+    CONSTRAINT challan_paidstatus_check CHECK (paidstatus = ANY (ARRAY['P'::bpchar, 'U'::bpchar])),
+    CONSTRAINT challan_partialpayment_check CHECK (partialpayment = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])),
+    CONSTRAINT chk_challan_amounts CHECK (feeamount >= 0::numeric AND paidamount >= 0::numeric),
+    CONSTRAINT chk_challan_balance CHECK (balancedue IS NULL OR balancedue = (feeamount - paidamount))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.challan
+    OWNER to postgres;
+
+-- Table: public.city
+
+-- DROP TABLE IF EXISTS public.city;
+
+CREATE TABLE IF NOT EXISTS public.city
+(
+    cit_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    citname character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    sta_id integer NOT NULL,
+    cou_id integer NOT NULL,
+    createdon date NOT NULL DEFAULT CURRENT_DATE,
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT city_pkey PRIMARY KEY (cit_id),
+    CONSTRAINT city_cou_id_fkey FOREIGN KEY (cou_id)
+        REFERENCES public.country (cou_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT city_sta_id_fkey FOREIGN KEY (sta_id)
+        REFERENCES public.state (sta_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT city_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.city
+    OWNER to postgres;
+
+
+-- Table: public.concessioncategory
+
+-- DROP TABLE IF EXISTS public.concessioncategory;
+
+CREATE TABLE IF NOT EXISTS public.concessioncategory
+(
+    con_id integer NOT NULL,
+    condesc character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    ins_id integer NOT NULL,
+    ordid integer,
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT concessioncategory_pkey PRIMARY KEY (con_id),
+    CONSTRAINT concessioncategory_activiestatus_check CHECK (activestatus = ANY (ARRAY[0, 1]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.concessioncategory
+    OWNER to postgres;
+
+
+-- Table: public.country
+
+-- DROP TABLE IF EXISTS public.country;
+
+CREATE TABLE IF NOT EXISTS public.country
+(
+    cou_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    cou_name character varying(35) COLLATE pg_catalog."default" NOT NULL,
+    cur_id integer NOT NULL,
+    coutimezone timestamp with time zone NOT NULL DEFAULT now(),
+    createdon date NOT NULL DEFAULT CURRENT_DATE,
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT country_pkey PRIMARY KEY (cou_id),
+    CONSTRAINT country_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.country
+    OWNER to postgres;
+
+
+-- Table: public.currency
+
+-- DROP TABLE IF EXISTS public.currency;
+
+CREATE TABLE IF NOT EXISTS public.currency
+(
+    cur_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    curname character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    curshort character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    cursymbol character(1) COLLATE pg_catalog."default" NOT NULL,
+    curdecpoints integer NOT NULL,
+    curdecname character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    createdon date NOT NULL DEFAULT CURRENT_DATE,
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT currency_pkey PRIMARY KEY (cur_id),
+    CONSTRAINT currency_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.currency
+    OWNER to postgres;
+
+
+-- Table: public.custuserroles
+
+-- DROP TABLE IF EXISTS public.custuserroles;
+
+CREATE TABLE IF NOT EXISTS public.custuserroles
+(
+    ur_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    ins_id integer NOT NULL,
+    inscode character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    urname character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT custuserroles_pkey PRIMARY KEY (ur_id),
+    CONSTRAINT custuserroles_unique_role UNIQUE (ins_id, urname),
+    CONSTRAINT custuserroles_activestatus_check CHECK (activestatus = ANY (ARRAY[1, 2, 9]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.custuserroles
+    OWNER to postgres;
+
+
+-- Table: public.feedemand
+
+-- DROP TABLE IF EXISTS public.feedemand;
+
+CREATE TABLE IF NOT EXISTS public.feedemand
+(
+    dem_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    demno character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    demseqtype character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    ins_id integer NOT NULL,
+    inscode character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    yr_id integer NOT NULL,
+    stu_id bigint,
+    stuadmno character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    stuclass character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    demfeeyear character varying(9) COLLATE pg_catalog."default" NOT NULL,
+    demfeeterm character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    demfeetype character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    demfeecategory character varying(20) COLLATE pg_catalog."default",
+    feeamount numeric(12,2) NOT NULL,
+    con_id integer,
+    conamount numeric(12,2) DEFAULT 0,
+    paidamount numeric(12,2) DEFAULT 0,
+    balancedue numeric(12,2),
+    duedate date NOT NULL,
+    pay_id integer,
+    paidstatus character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT 'U'::bpchar,
+    createdby character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    createdat timestamp without time zone NOT NULL DEFAULT now(),
+    activestatus smallint NOT NULL DEFAULT 1,
+    inactivedate timestamp without time zone,
+    remarks character varying(50) COLLATE pg_catalog."default",
+    CONSTRAINT feedemand_pkey PRIMARY KEY (dem_id),
+    CONSTRAINT fk_feedemand_year FOREIGN KEY (yr_id)
+        REFERENCES public.year (yr_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT feedemand_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1])),
+    CONSTRAINT feedemand_paidstatus_check CHECK (paidstatus = ANY (ARRAY['P'::bpchar, 'U'::bpchar]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.feedemand
+    OWNER to postgres;
+
+
+-- Table: public.institution
+
+-- DROP TABLE IF EXISTS public.institution;
+
+CREATE TABLE IF NOT EXISTS public.institution
+(
+    ins_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    insname character varying(80) COLLATE pg_catalog."default" NOT NULL,
+    inscode character varying(10) COLLATE pg_catalog."default",
+    insstadate date NOT NULL DEFAULT CURRENT_DATE,
+    insautusername character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    insdesignation character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    insmobno character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    insmail email COLLATE pg_catalog."default" NOT NULL,
+    insmailotp numeric(8,0),
+    insmobotp numeric(6,0),
+    insotpstatus smallint NOT NULL DEFAULT 0,
+    it_id integer NOT NULL,
+    insrecognised character(1) COLLATE pg_catalog."default" NOT NULL,
+    insaffliation character varying(70) COLLATE pg_catalog."default",
+    insaffno character varying(25) COLLATE pg_catalog."default",
+    insaffdate date,
+    insaffstayear character varying(9) COLLATE pg_catalog."default",
+    insaddress1 character varying(60) COLLATE pg_catalog."default" NOT NULL,
+    insaddress2 character varying(60) COLLATE pg_catalog."default",
+    insaddress3 character varying(60) COLLATE pg_catalog."default",
+    cit_id integer NOT NULL,
+    sta_id integer NOT NULL,
+    cou_id integer NOT NULL,
+    inspincode character varying(6) COLLATE pg_catalog."default" NOT NULL,
+    insipaddress character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    inssername character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    insserurl character varying(80) COLLATE pg_catalog."default" NOT NULL,
+    insapproved smallint NOT NULL DEFAULT 0,
+    insactby character varying(30) COLLATE pg_catalog."default",
+    insactdate date,
+    insactcode character varying(50) COLLATE pg_catalog."default",
+    activestatus smallint NOT NULL DEFAULT 1,
+    suspendeddate date,
+    suspendedby character varying(50) COLLATE pg_catalog."default",
+    suspendedreason character varying(200) COLLATE pg_catalog."default",
+    terminateddate date,
+    terminatedby character varying(50) COLLATE pg_catalog."default",
+    terminatedreason character varying(200) COLLATE pg_catalog."default",
+    updatedby character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    updateddate date NOT NULL DEFAULT CURRENT_DATE,
+    CONSTRAINT institution_pkey PRIMARY KEY (ins_id),
+    CONSTRAINT institution_cit_id_fkey FOREIGN KEY (cit_id)
+        REFERENCES public.city (cit_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT institution_cou_id_fkey FOREIGN KEY (cou_id)
+        REFERENCES public.country (cou_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT institution_it_id_fkey FOREIGN KEY (it_id)
+        REFERENCES public.institutiontype (it_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT institution_activestatus_check CHECK (activestatus = ANY (ARRAY[1, 2, 9])),
+    CONSTRAINT institution_insapproved_check CHECK (insapproved = ANY (ARRAY[0, 1])),
+    CONSTRAINT institution_insotpstatus_check CHECK (insotpstatus = ANY (ARRAY[0, 1, 2])),
+    CONSTRAINT institution_insrecognised_check CHECK (insrecognised = ANY (ARRAY['Y'::bpchar, 'N'::bpchar]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.institution
+    OWNER to postgres;
+-- Index: unique_inscode
+
+-- DROP INDEX IF EXISTS public.unique_inscode;
+
+CREATE UNIQUE INDEX IF NOT EXISTS unique_inscode
+    ON public.institution USING btree
+    (lower(inscode::text) COLLATE pg_catalog."default" ASC NULLS LAST)
+    WITH (fillfactor=100, deduplicate_items=True)
+    TABLESPACE pg_default;
+
+
+-- Table: public.institutiontype
+
+-- DROP TABLE IF EXISTS public.institutiontype;
+
+CREATE TABLE IF NOT EXISTS public.institutiontype
+(
+    it_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    ittype character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT institutiontype_pkey PRIMARY KEY (it_id),
+    CONSTRAINT institutiontype_ittype_key UNIQUE (ittype),
+    CONSTRAINT institutiontype_activestatus_check CHECK (activestatus = ANY (ARRAY[1, 2, 9]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.institutiontype
+    OWNER to postgres;
+
+
+-- Table: public.institutionusers
+
+-- DROP TABLE IF EXISTS public.institutionusers;
+
+CREATE TABLE IF NOT EXISTS public.institutionusers
+(
+    use_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    ins_id integer,
+    inscode character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    usename character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    usemail email COLLATE pg_catalog."default" NOT NULL,
+    usephone character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    usepassword character varying(250) COLLATE pg_catalog."default",
+    usestadate date NOT NULL DEFAULT CURRENT_DATE,
+    usemaiotp numeric(8,0),
+    usemobotp numeric(6,0),
+    useotpstatus smallint NOT NULL DEFAULT 0,
+    usedob date NOT NULL,
+    usecategory character varying(30) COLLATE pg_catalog."default",
+    ur_id integer NOT NULL,
+    urname character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    des_id integer NOT NULL,
+    desname character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    userepto integer NOT NULL,
+    approvedby character varying(50) COLLATE pg_catalog."default",
+    approveddate timestamp without time zone DEFAULT now(),
+    suspendeddate date,
+    suspendedby character varying(50) COLLATE pg_catalog."default",
+    terminateddate date,
+    terminatedby character varying(50) COLLATE pg_catalog."default",
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT institutionusers_pkey PRIMARY KEY (use_id),
+    CONSTRAINT institutionusers_des_id_fkey FOREIGN KEY (des_id)
+        REFERENCES public.staffdesignation (des_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT institutionusers_ur_id_fkey FOREIGN KEY (ur_id)
+        REFERENCES public.custuserroles (ur_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT institutionusers_useactstatus_check CHECK (activestatus = ANY (ARRAY[1, 2, 9])),
+    CONSTRAINT institutionusers_useotpstatus_check CHECK (useotpstatus = ANY (ARRAY[0, 1, 2]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.institutionusers
+    OWNER to postgres;
+
+
+-- Table: public.institutionyear
+
+-- DROP TABLE IF EXISTS public.institutionyear;
+
+CREATE TABLE IF NOT EXISTS public.institutionyear
+(
+    iyr_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    ins_id integer NOT NULL,
+    inscode character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    yrlabel character varying(9) COLLATE pg_catalog."default" NOT NULL,
+    iyrstadate date NOT NULL,
+    iyrenddate date NOT NULL,
+    iyearsubstatus smallint NOT NULL DEFAULT 1,
+    iyearsubsdate date,
+    sub_id integer,
+    iyrschema character varying(20) COLLATE pg_catalog."default",
+    iyearlicencekey text COLLATE pg_catalog."default",
+    terminatedby character varying(50) COLLATE pg_catalog."default",
+    terminatedon date,
+    iyrnotes character varying(100) COLLATE pg_catalog."default",
+    createdon timestamp without time zone NOT NULL DEFAULT now(),
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT institution_year_pkey PRIMARY KEY (iyr_id),
+    CONSTRAINT chk_instyear_dates CHECK (iyrstadate <= iyrenddate),
+    CONSTRAINT institution_year_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1])),
+    CONSTRAINT institution_year_iyearsubstatus_check CHECK (iyearsubstatus = ANY (ARRAY[0, 1]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.institutionyear
+    OWNER to postgres;
+
+
+-- Table: public.modules
+
+-- DROP TABLE IF EXISTS public.modules;
+
+CREATE TABLE IF NOT EXISTS public.modules
+(
+    mod_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    ins_id integer NOT NULL,
+    modtype character(1) COLLATE pg_catalog."default" NOT NULL,
+    modname character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    modshort character varying(11) COLLATE pg_catalog."default" NOT NULL,
+    createdon date NOT NULL DEFAULT CURRENT_DATE,
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT modules_pkey PRIMARY KEY (mod_id),
+    CONSTRAINT modules_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1])),
+    CONSTRAINT modules_modtype_check CHECK (modtype = ANY (ARRAY['A'::bpchar, 'C'::bpchar]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.modules
+    OWNER to postgres;
+
+
+-- Table: public.parentdetail
+
+-- DROP TABLE IF EXISTS public.parentdetail;
+
+CREATE TABLE IF NOT EXISTS public.parentdetail
+(
+    pd_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    yr_id integer NOT NULL,
+    yrlabel character varying(9) COLLATE pg_catalog."default",
+    par_id bigint NOT NULL,
+    stu_id bigint NOT NULL,
+    ins_id integer NOT NULL,
+    inscode character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    stuadmno character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    stuname character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    stuclass character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT parentdetail_pkey PRIMARY KEY (pd_id),
+    CONSTRAINT parentdetail_stuadmno_key UNIQUE (stuadmno),
+    CONSTRAINT parentdetail_yr_id_fkey FOREIGN KEY (yr_id)
+        REFERENCES public.year (yr_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.parentdetail
+    OWNER to postgres;
+
+
+-- Table: public.parents
+
+-- DROP TABLE IF EXISTS public.parents;
+
+CREATE TABLE IF NOT EXISTS public.parents
+(
+    par_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    yr_id integer NOT NULL,
+    yrlabel character varying(9) COLLATE pg_catalog."default",
+    partype character(1) COLLATE pg_catalog."default" NOT NULL,
+    paremail email COLLATE pg_catalog."default",
+    fathername character varying(50) COLLATE pg_catalog."default",
+    mothername character varying(50) COLLATE pg_catalog."default",
+    guardianname character varying(50) COLLATE pg_catalog."default",
+    fathermobile character varying(20) COLLATE pg_catalog."default",
+    mothermobile character varying(20) COLLATE pg_catalog."default",
+    guardianmobile character varying(20) COLLATE pg_catalog."default",
+    fatheroccupation character varying(60) COLLATE pg_catalog."default",
+    motheroccupation character varying(60) COLLATE pg_catalog."default",
+    guardianoccupation character varying(60) COLLATE pg_catalog."default",
+    payincharge character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    payinchargemob character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    parpassword character varying(255) COLLATE pg_catalog."default",
+    parmobotp numeric(6,0),
+    parotpstatus smallint NOT NULL DEFAULT 0,
+    approvedby character varying(50) COLLATE pg_catalog."default",
+    approveddate timestamp without time zone DEFAULT now(),
+    terminateddate date,
+    terminatedby character varying(50) COLLATE pg_catalog."default",
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT parents_pkey PRIMARY KEY (par_id),
+    CONSTRAINT parents_paremail_key UNIQUE (paremail),
+    CONSTRAINT parents_yr_id_fkey FOREIGN KEY (yr_id)
+        REFERENCES public.year (yr_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT parents_activestatus_check CHECK (activestatus = ANY (ARRAY[1, 2, 9])),
+    CONSTRAINT parents_parotpstatus_check CHECK (parotpstatus = ANY (ARRAY[0, 1])),
+    CONSTRAINT parents_partype_check CHECK (partype = ANY (ARRAY['P'::bpchar, 'G'::bpchar]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.parents
+    OWNER to postgres;
+
+
+-- Table: public.payment
+
+-- DROP TABLE IF EXISTS public.payment;
+
+CREATE TABLE IF NOT EXISTS public.payment
+(
+    pay_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    yr_id integer NOT NULL,
+    yrlabel character varying(9) COLLATE pg_catalog."default",
+    ins_id integer NOT NULL,
+    inscode character varying(10) COLLATE pg_catalog."default",
+    car_id integer,
+    paydate timestamp without time zone,
+    paystatus character(1) COLLATE pg_catalog."default",
+    paymethod character varying(60) COLLATE pg_catalog."default",
+    payreference character varying(100) COLLATE pg_catalog."default",
+    paygwresponse numeric(15,0),
+    createdat timestamp without time zone NOT NULL DEFAULT now(),
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT payment_pkey PRIMARY KEY (pay_id),
+    CONSTRAINT payment_yr_id_fkey FOREIGN KEY (yr_id)
+        REFERENCES public.year (yr_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT payment_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1])),
+    CONSTRAINT payment_paystatus_check CHECK (paystatus = ANY (ARRAY['I'::bpchar, 'C'::bpchar, 'F'::bpchar, 'R'::bpchar]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.payment
+    OWNER to postgres;
+
+
+-- Table: public.paymentgateway
+
+-- DROP TABLE IF EXISTS public.paymentgateway;
+
+CREATE TABLE IF NOT EXISTS public.paymentgateway
+(
+    gw_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    gwname character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    gwapikey character varying(255) COLLATE pg_catalog."default",
+    gwapisecret character varying(255) COLLATE pg_catalog."default",
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT paymentgateway_pkey PRIMARY KEY (gw_id),
+    CONSTRAINT paymentgateway_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.paymentgateway
+    OWNER to postgres;
+
+
+-- Table: public.sequence
+
+-- DROP TABLE IF EXISTS public.sequence;
+
+CREATE TABLE IF NOT EXISTS public.sequence
+(
+    seq_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    ins_id integer NOT NULL,
+    mod_id integer NOT NULL,
+    yr_id integer NOT NULL,
+    yrlabel character varying(9) COLLATE pg_catalog."default" NOT NULL,
+    actname character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    seqname character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    isprefix character(1) COLLATE pg_catalog."default" NOT NULL,
+    seqprefix character varying(8) COLLATE pg_catalog."default" NOT NULL,
+    seqstart numeric(9,0) NOT NULL,
+    seqwidth numeric(1,0) NOT NULL,
+    sequid character varying(18) COLLATE pg_catalog."default" NOT NULL,
+    seqcurno numeric(9,0) NOT NULL,
+    createdon timestamp without time zone NOT NULL DEFAULT now(),
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT sequence_pkey PRIMARY KEY (seq_id),
+    CONSTRAINT fk_sequence_year FOREIGN KEY (yr_id)
+        REFERENCES public.year (yr_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT sequence_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1])),
+    CONSTRAINT sequence_isprefix_check CHECK (isprefix = ANY (ARRAY['Y'::bpchar, 'N'::bpchar]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.sequence
+    OWNER to postgres;
+
+
+-- Table: public.shoppingcart
+
+-- DROP TABLE IF EXISTS public.shoppingcart;
+
+CREATE TABLE IF NOT EXISTS public.shoppingcart
+(
+    car_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    yr_id integer NOT NULL,
+    yrlabel character varying(9) COLLATE pg_catalog."default",
+    ins_id integer NOT NULL,
+    transtype character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    transdate date NOT NULL,
+    transcurrency character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    transtotalamount numeric(12,2) NOT NULL,
+    carinitiated character(1) COLLATE pg_catalog."default" NOT NULL,
+    pay_id integer,
+    createdby character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    createdon timestamp without time zone NOT NULL DEFAULT now(),
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT shoppingcart_pkey PRIMARY KEY (car_id),
+    CONSTRAINT shoppingcart_yr_id_fkey FOREIGN KEY (yr_id)
+        REFERENCES public.year (yr_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT shoppingcart_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1])),
+    CONSTRAINT shoppingcart_carinitiated_check CHECK (carinitiated = ANY (ARRAY['N'::bpchar, 'I'::bpchar, 'F'::bpchar]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.shoppingcart
+    OWNER to postgres;
+
+
+-- Table: public.shoppingcartdetails
+
+-- DROP TABLE IF EXISTS public.shoppingcartdetails;
+
+CREATE TABLE IF NOT EXISTS public.shoppingcartdetails
+(
+    cd_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    yr_id integer NOT NULL,
+    yrlabel character varying(9) COLLATE pg_catalog."default",
+    car_id integer NOT NULL,
+    ins_id integer NOT NULL,
+    transdetail_id integer,
+    transcurrency character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    transtotalamount numeric(12,2) NOT NULL,
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT shoppingcartdetails_pkey PRIMARY KEY (cd_id),
+    CONSTRAINT shoppingcartdetails_yr_id_fkey FOREIGN KEY (yr_id)
+        REFERENCES public.year (yr_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT shoppingcartdetails_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.shoppingcartdetails
+    OWNER to postgres;
+
+
+-- Table: public.staffdesignation
+
+-- DROP TABLE IF EXISTS public.staffdesignation;
+
+CREATE TABLE IF NOT EXISTS public.staffdesignation
+(
+    des_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    ins_id integer NOT NULL,
+    desname character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    desrepto integer,
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT staffdesignation_pkey PRIMARY KEY (des_id),
+    CONSTRAINT uniq_staffdesignation UNIQUE (ins_id, desname),
+    CONSTRAINT fk_staffdesignation_repto FOREIGN KEY (desrepto)
+        REFERENCES public.staffdesignation (des_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT staffdesignation_activestatus_check CHECK (activestatus = ANY (ARRAY[1, 2, 9]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.staffdesignation
+    OWNER to postgres;
+
+
+-- Table: public.state
+
+-- DROP TABLE IF EXISTS public.state;
+
+CREATE TABLE IF NOT EXISTS public.state
+(
+    sta_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    staname character varying(35) COLLATE pg_catalog."default" NOT NULL,
+    cou_id integer NOT NULL,
+    createdon date NOT NULL DEFAULT CURRENT_DATE,
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT state_pkey PRIMARY KEY (sta_id),
+    CONSTRAINT state_cou_id_fkey FOREIGN KEY (cou_id)
+        REFERENCES public.country (cou_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT state_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.state
+    OWNER to postgres;
+
+
+-- Table: public.students
+
+-- DROP TABLE IF EXISTS public.students;
+
+CREATE TABLE IF NOT EXISTS public.students
+(
+    stu_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    ins_id integer NOT NULL,
+    inscode character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    yr_id integer NOT NULL,
+    yrlabel character varying(9) COLLATE pg_catalog."default" NOT NULL,
+    stuadmno character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    stuadmdate date NOT NULL,
+    stuname character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    stugender character(1) COLLATE pg_catalog."default" NOT NULL,
+    studob date NOT NULL,
+    stumobile character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    stuemail email COLLATE pg_catalog."default",
+    stuaddress text COLLATE pg_catalog."default",
+    stucity character varying(50) COLLATE pg_catalog."default",
+    stustate character varying(50) COLLATE pg_catalog."default",
+    stucountry character varying(50) COLLATE pg_catalog."default",
+    stupin character varying(6) COLLATE pg_catalog."default",
+    stugeocoordinates character varying(40) COLLATE pg_catalog."default",
+    stubloodgrp character varying(20) COLLATE pg_catalog."default",
+    stuphoto text COLLATE pg_catalog."default",
+    stuclass character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    con_id integer,
+    stucondesc character varying(20) COLLATE pg_catalog."default",
+    stuser_id character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    stupassword character varying(255) COLLATE pg_catalog."default",
+    stumobotp numeric(6,0),
+    stuotpstatus smallint NOT NULL DEFAULT 0,
+    approvedby character varying(50) COLLATE pg_catalog."default",
+    approveddate timestamp without time zone NOT NULL DEFAULT now(),
+    suspendeddate date,
+    suspendedby character varying(50) COLLATE pg_catalog."default",
+    terminateddate date,
+    terminatedby character varying(50) COLLATE pg_catalog."default",
+    activestatus smallint NOT NULL DEFAULT 1,
+    createdon timestamp without time zone NOT NULL DEFAULT now(),
+    CONSTRAINT students_pkey PRIMARY KEY (stu_id),
+    CONSTRAINT students_stuemail_key UNIQUE (stuemail),
+    CONSTRAINT uq_students_admission UNIQUE (ins_id, stuadmno),
+    CONSTRAINT students_yr_id_fkey FOREIGN KEY (yr_id)
+        REFERENCES public.year (yr_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT students_activestatus_check CHECK (activestatus = ANY (ARRAY[1, 2, 9])),
+    CONSTRAINT students_stu_id_check CHECK (stu_id > 0),
+    CONSTRAINT students_stugender_check CHECK (stugender = ANY (ARRAY['M'::bpchar, 'F'::bpchar, 'T'::bpchar])),
+    CONSTRAINT students_stuotpstatus_check CHECK (stuotpstatus = ANY (ARRAY[0, 1, 2]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.students
+    OWNER to postgres;
+
+
+-- Table: public.userlogin
+
+-- DROP TABLE IF EXISTS public.userlogin;
+
+CREATE TABLE IF NOT EXISTS public.userlogin
+(
+    ul_id bigint NOT NULL,
+    ins_id integer NOT NULL,
+    inscode character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    yr_id integer NOT NULL,
+    yrlabel character varying(9) COLLATE pg_catalog."default",
+    uluser character varying(50) COLLATE pg_catalog."default",
+    ulusetype smallint,
+    ultime timestamp without time zone,
+    ulattempt smallint DEFAULT 0,
+    ulip character varying(40) COLLATE pg_catalog."default",
+    ullocation character varying(50) COLLATE pg_catalog."default",
+    ulsuccess character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT 'N'::bpchar,
+    ulsesid numeric,
+    ulsesstart timestamp without time zone NOT NULL DEFAULT now(),
+    ulsesend timestamp without time zone,
+    ulsestime timestamp without time zone,
+    CONSTRAINT userlogin_pkey PRIMARY KEY (ul_id),
+    CONSTRAINT fk_userlogin_year FOREIGN KEY (yr_id)
+        REFERENCES public.year (yr_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT userlogin_ulattempt_check CHECK (ulattempt >= 0 AND ulattempt <= 3),
+    CONSTRAINT userlogin_ulsuccess_check CHECK (ulsuccess = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])),
+    CONSTRAINT userlogin_ulusetype_check CHECK (ulusetype = ANY (ARRAY[1, 2]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.userlogin
+    OWNER to postgres;
+
+
+-- Table: public.year
+
+-- DROP TABLE IF EXISTS public.year;
+
+CREATE TABLE IF NOT EXISTS public.year
+(
+    yr_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    ins_id integer NOT NULL,
+    yrlabel character varying(9) COLLATE pg_catalog."default" NOT NULL,
+    yrstadate date NOT NULL,
+    yrenddate date NOT NULL,
+    createdon timestamp without time zone NOT NULL DEFAULT now(),
+    activestatus smallint NOT NULL DEFAULT 1,
+    CONSTRAINT year_pkey PRIMARY KEY (yr_id),
+    CONSTRAINT chk_year_dates CHECK (yrstadate <= yrenddate),
+    CONSTRAINT year_activestatus_check CHECK (activestatus = ANY (ARRAY[0, 1]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.year
+    OWNER to postgres;

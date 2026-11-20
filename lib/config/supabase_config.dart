@@ -1,0 +1,15 @@
+/// Supabase configuration
+class SupabaseConfig {
+  SupabaseConfig._();
+
+  /// Supabase project URL -- the SCHOOL project (xjdvrrcmvyjocxynmhql), the
+  /// same one the FIT School desktop build uses.
+  static const String url = 'https://xjdvrrcmvyjocxynmhql.supabase.co';
+
+  /// Supabase anonymous key
+  static const String anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqZHZycmNtdnlqb2N4eW5taHFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5NDg5MjUsImV4cCI6MjA5NTUyNDkyNX0.P1wWT1owyJztt5dHC0BpOHYtlQWXrf8MC7Iih3Nj3Bg';
+
+  /// Supabase service role key (for server-side operations only)
+  /// Never expose this in client-side code
+  static const String serviceRoleKey = '';
+}

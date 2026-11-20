@@ -1,0 +1,16 @@
+{
+  "name": "krishnasamy-institution-db-sync",
+  "version": "1.0.0",
+  "description": "Sync local PostgreSQL database to Supabase",
+  "main": "Full_sync.js",
+  "type": "module",
+  "scripts": {
+    "sync": "node Full_sync.js",
+    "sync:dry-run": "node Full_sync.js --dry-run"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "pg": "^8.11.3",
+    "dotenv": "^16.3.1"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "version": "1.0.5",
+  "url": "https://ohbjbiwrjykdugbrimxe.supabase.co/storage/v1/object/public/app-updates/EduCore360-Parent-1.0.5.apk",
+  "notes": "Fixes online fee payment failing with a permission error: the whole payment flow (initiate, order, status, cleanup) now goes through secure server functions. Requires the add_create_pending_payment migration in Supabase.",
+  "mandatory": false
+}
